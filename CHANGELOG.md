@@ -74,13 +74,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `pg_ltree_convert_column` — Convert text to ltree
   - `pg_ltree_create_index` — Create GiST index for tree queries
 - New `ltree` tool-filtering group for hierarchical tree operations
+- **9 pgcrypto tools** — Cryptographic functions support
+  - `pg_pgcrypto_create_extension` — Enable pgcrypto
+  - `pg_pgcrypto_hash` — Hash data with digest() (SHA-256, MD5, etc.)
+  - `pg_pgcrypto_hmac` — HMAC authentication
+  - `pg_pgcrypto_encrypt` — Symmetric encryption with pgp_sym_encrypt()
+  - `pg_pgcrypto_decrypt` — Symmetric decryption with pgp_sym_decrypt()
+  - `pg_pgcrypto_gen_random_uuid` — Generate cryptographically secure UUID v4
+  - `pg_pgcrypto_gen_random_bytes` — Generate random bytes for salts/tokens
+  - `pg_pgcrypto_gen_salt` — Generate salt for password hashing
+  - `pg_pgcrypto_crypt` — Hash passwords with crypt()
+- New `pgcrypto` tool-filtering group for cryptographic operations
 
 ### Changed
 - Restructured resources into modular files for maintainability
 - Resource count from 6 to 14
 - Prompt count from 7 to 13
 - Restructured prompts into modular files for maintainability
-- Tool count from 146 to 185 (added pg_cron, pg_partman, pg_stat_kcache, citext, and ltree tools)
+- Tool count from 146 to 194 (added pg_cron, pg_partman, pg_stat_kcache, citext, ltree, and pgcrypto tools)
 
 ### Planned
 - Verify prompts and resources from old Python server are ported

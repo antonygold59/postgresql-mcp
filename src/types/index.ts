@@ -463,7 +463,8 @@ export type ToolGroup =
     | 'partman'        // pg_partman extension - partition lifecycle
     | 'kcache'         // pg_stat_kcache extension - OS-level performance stats
     | 'citext'         // citext extension - case-insensitive text
-    | 'ltree';         // ltree extension - hierarchical tree labels
+    | 'ltree'          // ltree extension - hierarchical tree labels
+    | 'pgcrypto';      // pgcrypto extension - cryptographic functions
 
 /**
  * Tool filter rule

@@ -44,6 +44,7 @@ import { getPartmanTools } from './tools/partman.js';
 import { getKcacheTools } from './tools/kcache.js';
 import { getCitextTools } from './tools/citext.js';
 import { getLtreeTools } from './tools/ltree.js';
+import { getPgcryptoTools } from './tools/pgcrypto.js';
 import { getPostgresResources } from './resources/index.js';
 import { getPostgresPrompts } from './prompts/index.js';
 
@@ -545,7 +546,8 @@ export class PostgresAdapter extends DatabaseAdapter {
             'partman',
             'kcache',
             'citext',
-            'ltree'
+            'ltree',
+            'pgcrypto'
         ];
     }
 
@@ -572,7 +574,8 @@ export class PostgresAdapter extends DatabaseAdapter {
             ...getPartmanTools(this),
             ...getKcacheTools(this),
             ...getCitextTools(this),
-            ...getLtreeTools(this)
+            ...getLtreeTools(this),
+            ...getPgcryptoTools(this)
         ];
     }
 

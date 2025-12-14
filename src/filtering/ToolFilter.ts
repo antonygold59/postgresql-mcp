@@ -242,6 +242,17 @@ export const TOOL_GROUPS: Record<ToolGroup, string[]> = {
         'pg_ltree_list_columns',
         'pg_ltree_convert_column',
         'pg_ltree_create_index'
+    ],
+    pgcrypto: [
+        'pg_pgcrypto_create_extension',
+        'pg_pgcrypto_hash',
+        'pg_pgcrypto_hmac',
+        'pg_pgcrypto_encrypt',
+        'pg_pgcrypto_decrypt',
+        'pg_pgcrypto_gen_random_uuid',
+        'pg_pgcrypto_gen_random_bytes',
+        'pg_pgcrypto_gen_salt',
+        'pg_pgcrypto_crypt'
     ]
 };
 

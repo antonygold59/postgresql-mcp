@@ -670,3 +670,76 @@ export const LtreeIndexSchema = z.object({
     indexName: z.string().optional().describe('Custom index name (auto-generated if omitted)'),
     schema: z.string().optional().describe('Schema name (default: public)')
 });
+
+// =============================================================================
+// pgcrypto Schemas
+// =============================================================================
+
+/**
+ * Schema for hashing data with digest().
+ */
+export const PgcryptoHashSchema = z.object({
+    data: z.string().describe('Data to hash'),
+    algorithm: z.enum(['md5', 'sha1', 'sha224', 'sha256', 'sha384', 'sha512'])
+        .describe('Hash algorithm'),
+    encoding: z.enum(['hex', 'base64']).optional()
+        .describe('Output encoding (default: hex)')
+});
+
+/**
+ * Schema for HMAC authentication.
+ */
+export const PgcryptoHmacSchema = z.object({
+    data: z.string().describe('Data to authenticate'),
+    key: z.string().describe('Secret key for HMAC'),
+    algorithm: z.enum(['md5', 'sha1', 'sha224', 'sha256', 'sha384', 'sha512'])
+        .describe('Hash algorithm'),
+    encoding: z.enum(['hex', 'base64']).optional()
+        .describe('Output encoding (default: hex)')
+});
+
+/**
+ * Schema for PGP symmetric encryption.
+ */
+export const PgcryptoEncryptSchema = z.object({
+    data: z.string().describe('Data to encrypt'),
+    password: z.string().describe('Encryption password'),
+    options: z.string().optional()
+        .describe('PGP options (e.g., "compress-algo=1, cipher-algo=aes256")')
+});
+
+/**
+ * Schema for PGP symmetric decryption.
+ */
+export const PgcryptoDecryptSchema = z.object({
+    encryptedData: z.string().describe('Encrypted data (base64 from encrypt)'),
+    password: z.string().describe('Decryption password')
+});
+
+/**
+ * Schema for generating random bytes.
+ */
+export const PgcryptoRandomBytesSchema = z.object({
+    length: z.number().min(1).max(1024)
+        .describe('Number of random bytes to generate (1-1024)'),
+    encoding: z.enum(['hex', 'base64']).optional()
+        .describe('Output encoding (default: hex)')
+});
+
+/**
+ * Schema for generating password salt.
+ */
+export const PgcryptoGenSaltSchema = z.object({
+    type: z.enum(['bf', 'md5', 'xdes', 'des'])
+        .describe('Salt type: bf (bcrypt, recommended), md5, xdes, or des'),
+    iterations: z.number().optional()
+        .describe('Iteration count (for bf: 4-31, for xdes: odd 1-16777215)')
+});
+
+/**
+ * Schema for password hashing with crypt().
+ */
+export const PgcryptoCryptSchema = z.object({
+    password: z.string().describe('Password to hash or verify'),
+    salt: z.string().describe('Salt from gen_salt() or stored hash for verification')
+});
