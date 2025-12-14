@@ -4,7 +4,9 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)](https://www.typescriptlang.org/)
 [![MCP](https://img.shields.io/badge/MCP-Compatible-green.svg)](https://modelcontextprotocol.io/)
 
-PostgreSQL MCP server with connection pooling, tool filtering, and full extension support.
+*UNDER DEVELOPMENT - NOT READY FOR PRODUCTION* 
+
+An enterprise-focused PostgreSQL MCP server enabling secure, AI-driven database administration, observability, and querying via OAuth 2.0, with connection pooling, OAuth 2.0 and advanced tool filtering.
 
 ## Features
 
