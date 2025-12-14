@@ -1,13 +1,29 @@
 /**
- * postgresql-mcp - PostgreSQL MCP Server
+ * postgres-mcp - PostgreSQL MCP Server
  * 
- * A full-featured PostgreSQL MCP server with connection pooling,
- * tool filtering, and extension support.
+ * Full-featured PostgreSQL database tools for AI assistants.
+ * 
+ * @module postgres-mcp
  */
 
-export const VERSION = '0.1.0';
+// Export types
+export * from './types/index.js';
 
-// Placeholder - implementation will be added in subsequent phases
-export function main(): void {
-    console.log(`postgres-mcp v${VERSION}`);
-}
+// Export adapters
+export { DatabaseAdapter } from './adapters/DatabaseAdapter.js';
+export { PostgresAdapter } from './adapters/postgresql/index.js';
+
+// Export server
+export { PostgresMcpServer } from './server/McpServer.js';
+
+// Export utilities
+export { ConnectionPool } from './pool/ConnectionPool.js';
+export {
+    parseToolFilter,
+    filterTools,
+    getToolFilterFromEnv,
+    TOOL_GROUPS,
+    getAllToolNames,
+    getToolGroup
+} from './filtering/ToolFilter.js';
+export { logger } from './utils/logger.js';
