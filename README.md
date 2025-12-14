@@ -6,7 +6,7 @@
 
 *Enterprise-grade PostgreSQL MCP Server with OAuth 2.0 authentication, connection pooling, tool filtering, plus support for pgvector, PostGIS, and advanced PostgreSQL features - TypeScript Edition*
 
-> **✅ Initial Implementation Complete** - 146 tools, 6 resources, and 7 prompts. Thorough testing before release in progress.
+> **✅ Initial Implementation Complete** - 146 tools, 14 resources, and 7 prompts. Thorough testing before release in progress.
 
 [![GitHub](https://img.shields.io/badge/GitHub-neverinfamous/postgres--mcp-blue?logo=github)](https://github.com/neverinfamous/postgres-mcp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -14,7 +14,7 @@
 [![MCP](https://img.shields.io/badge/MCP-Compatible-green.svg)](https://modelcontextprotocol.io/)
 ![Status](https://img.shields.io/badge/status-Testing-blue)
 
-A **PostgreSQL MCP Server** that enables AI assistants (Claude, Cursor, etc.) to interact with PostgreSQL databases through the Model Context Protocol. Provides **146 specialized tools**, **6 resources**, and **7 AI-powered prompts**.
+A **PostgreSQL MCP Server** that enables AI assistants (Claude, Cursor, etc.) to interact with PostgreSQL databases through the Model Context Protocol. Provides **146 specialized tools**, **14 resources**, and **7 AI-powered prompts**.
 
 ---
 
@@ -189,14 +189,24 @@ This server includes **7 intelligent prompts** for guided workflows:
 
 ## 📦 Resources
 
+This server provides **14 resources** for structured data access:
+
 | Resource | URI | Description |
 |----------|-----|-------------|
-| Schema | `postgres://schema` | Current database schema |
+| Schema | `postgres://schema` | Full database schema |
 | Tables | `postgres://tables` | Table listing with sizes |
 | Settings | `postgres://settings` | PostgreSQL configuration |
-| Statistics | `postgres://stats` | Database statistics |
+| Statistics | `postgres://stats` | Database statistics with stale detection |
 | Activity | `postgres://activity` | Current connections |
 | Pool | `postgres://pool` | Connection pool status |
+| Capabilities | `postgres://capabilities` | Server version, extensions, tool categories |
+| Performance | `postgres://performance` | pg_stat_statements query metrics |
+| Health | `postgres://health` | Comprehensive database health status |
+| Extensions | `postgres://extensions` | Extension inventory with recommendations |
+| Indexes | `postgres://indexes` | Index usage with unused detection |
+| Replication | `postgres://replication` | Replication status and lag monitoring |
+| Vacuum | `postgres://vacuum` | Vacuum stats and wraparound warnings |
+| Locks | `postgres://locks` | Lock contention detection |
 
 ---
 

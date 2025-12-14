@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **14 resources** — migrated from legacy postgres-mcp-server
+  - `postgres://capabilities` — Server version, extensions, tool categories
+  - `postgres://performance` — pg_stat_statements query metrics
+  - `postgres://health` — Comprehensive database health status
+  - `postgres://extensions` — Extension inventory with recommendations
+  - `postgres://indexes` — Index usage with unused detection
+  - `postgres://replication` — Replication status and lag monitoring
+  - `postgres://vacuum` — Vacuum stats and wraparound warnings
+  - `postgres://locks` — Lock contention detection
+- Enhanced `postgres://stats` with stale statistics detection and recommendations
+
+### Changed
+- Restructured resources into modular files for maintainability
+- Resource count from 6 to 14
+
 ### Planned
 - Verify prompts and resources from old Python server are ported
 - Verify all PostgreSQL extensions are supported
