@@ -40,6 +40,8 @@ import { getPostgisTools } from './tools/postgis.js';
 import { getPartitioningTools } from './tools/partitioning.js';
 import { getStatsTools } from './tools/stats.js';
 import { getCronTools } from './tools/cron.js';
+import { getPartmanTools } from './tools/partman.js';
+import { getKcacheTools } from './tools/kcache.js';
 import { getPostgresResources } from './resources/index.js';
 import { getPostgresPrompts } from './prompts/index.js';
 
@@ -537,7 +539,9 @@ export class PostgresAdapter extends DatabaseAdapter {
             'postgis',
             'partitioning',
             'stats',
-            'cron'
+            'cron',
+            'partman',
+            'kcache'
         ];
     }
 
@@ -560,7 +564,9 @@ export class PostgresAdapter extends DatabaseAdapter {
             ...getPostgisTools(this),
             ...getPartitioningTools(this),
             ...getStatsTools(this),
-            ...getCronTools(this)
+            ...getCronTools(this),
+            ...getPartmanTools(this),
+            ...getKcacheTools(this)
         ];
     }
 

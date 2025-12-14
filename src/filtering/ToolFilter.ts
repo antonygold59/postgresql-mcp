@@ -203,6 +203,27 @@ export const TOOL_GROUPS: Record<ToolGroup, string[]> = {
         'pg_cron_list_jobs',
         'pg_cron_job_run_details',
         'pg_cron_cleanup_history'
+    ],
+    partman: [
+        'pg_partman_create_extension',
+        'pg_partman_create_parent',
+        'pg_partman_run_maintenance',
+        'pg_partman_show_partitions',
+        'pg_partman_show_config',
+        'pg_partman_check_default',
+        'pg_partman_partition_data',
+        'pg_partman_set_retention',
+        'pg_partman_undo_partition',
+        'pg_partman_analyze_partition_health'
+    ],
+    kcache: [
+        'pg_kcache_create_extension',
+        'pg_kcache_query_stats',
+        'pg_kcache_top_cpu',
+        'pg_kcache_top_io',
+        'pg_kcache_database_stats',
+        'pg_kcache_resource_analysis',
+        'pg_kcache_reset'
     ]
 };
 

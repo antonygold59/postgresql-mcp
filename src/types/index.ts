@@ -459,7 +459,9 @@ export type ToolGroup =
     | 'postgis'        // PostGIS extension
     | 'partitioning'   // Partition management
     | 'stats'          // Statistical analysis
-    | 'cron';          // pg_cron extension - job scheduling
+    | 'cron'           // pg_cron extension - job scheduling
+    | 'partman'        // pg_partman extension - partition lifecycle
+    | 'kcache';        // pg_stat_kcache extension - OS-level performance stats
 
 /**
  * Tool filter rule

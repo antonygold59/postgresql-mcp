@@ -35,13 +35,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `pg_cron_job_run_details` — View execution history
   - `pg_cron_cleanup_history` — Clean old history records
 - New `cron` tool-filtering group for pg_cron tools
+- **10 pg_partman tools** — Automated partition lifecycle management
+  - `pg_partman_create_extension` — Enable pg_partman
+  - `pg_partman_create_parent` — Create partition set with automatic child creation
+  - `pg_partman_run_maintenance` — Execute partition maintenance
+  - `pg_partman_show_partitions` — List managed partitions
+  - `pg_partman_show_config` — View partition configuration
+  - `pg_partman_check_default` — Check for data in default partition
+  - `pg_partman_partition_data` — Move data to child partitions
+  - `pg_partman_set_retention` — Configure retention policies
+  - `pg_partman_undo_partition` — Convert back to regular table
+  - `pg_partman_analyze_partition_health` — Health check with recommendations
+- New `partman` tool-filtering group for pg_partman tools
+- **7 pg_stat_kcache tools** — OS-level performance visibility
+  - `pg_kcache_create_extension` — Enable pg_stat_kcache
+  - `pg_kcache_query_stats` — Query stats with CPU/IO metrics
+  - `pg_kcache_top_cpu` — Top CPU-consuming queries
+  - `pg_kcache_top_io` — Top I/O-consuming queries
+  - `pg_kcache_database_stats` — Database-level aggregated stats
+  - `pg_kcache_resource_analysis` — CPU-bound vs I/O-bound classification
+  - `pg_kcache_reset` — Reset statistics
+- New `kcache` tool-filtering group for pg_stat_kcache tools
 
 ### Changed
 - Restructured resources into modular files for maintainability
 - Resource count from 6 to 14
 - Prompt count from 7 to 13
 - Restructured prompts into modular files for maintainability
-- Tool count from 146 to 154 (added pg_cron tools)
+- Tool count from 146 to 171 (added pg_cron, pg_partman, and pg_stat_kcache tools)
 
 ### Planned
 - Verify prompts and resources from old Python server are ported
