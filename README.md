@@ -23,7 +23,7 @@ A **PostgreSQL MCP Server** that enables AI assistants (Claude, Cursor, etc.) to
 ### Prerequisites
 
 - Node.js 18+
-- PostgreSQL 12+ server
+- PostgreSQL 12-18 (tested with PostgreSQL 18.1)
 - npm or yarn
 
 ### Installation
