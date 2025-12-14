@@ -6,7 +6,7 @@
 
 *Enterprise-grade PostgreSQL MCP Server with OAuth 2.0 authentication, connection pooling, tool filtering, plus support for citext, ltree, pgcrypto, pg_cron, pg_stat_kcache, pgvector, PostGIS, and advanced PostgreSQL features - TypeScript Edition*
 
-> **✅ Initial Implementation Complete** - 194 tools, 14 resources, and 13 prompts. Thorough testing before release in progress.
+> **✅ Initial Implementation Complete** - 194 tools, 20 resources, and 19 prompts. Thorough testing before release in progress.
 
 [![GitHub](https://img.shields.io/badge/GitHub-neverinfamous/postgres--mcp-blue?logo=github)](https://github.com/neverinfamous/postgres-mcp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -14,7 +14,7 @@
 [![MCP](https://img.shields.io/badge/MCP-Compatible-green.svg)](https://modelcontextprotocol.io/)
 ![Status](https://img.shields.io/badge/status-Testing-blue)
 
-A **PostgreSQL MCP Server** that enables AI assistants (Claude, Cursor, etc.) to interact with PostgreSQL databases through the Model Context Protocol. Provides **194 specialized tools**, **14 resources**, and **13 AI-powered prompts**.
+A **PostgreSQL MCP Server** that enables AI assistants (Claude, Cursor, etc.) to interact with PostgreSQL databases through the Model Context Protocol. Provides **194 specialized tools**, **20 resources**, and **19 AI-powered prompts**.
 
 ---
 
@@ -185,7 +185,7 @@ This server provides **194 tools** across 19 categories:
 
 ## 🤖 AI-Powered Prompts
 
-This server includes **13 intelligent prompts** for guided workflows:
+This server includes **19 intelligent prompts** for guided workflows:
 
 | Prompt | Description |
 |--------|-------------|
@@ -202,12 +202,18 @@ This server includes **13 intelligent prompts** for guided workflows:
 | `pg_extension_setup` | Extension installation and configuration guide |
 | `pg_setup_pgvector` | Complete pgvector setup for semantic search |
 | `pg_setup_postgis` | Complete PostGIS setup for geospatial operations |
+| `pg_setup_pgcron` | Complete pg_cron setup for job scheduling |
+| `pg_setup_partman` | Complete pg_partman setup for partition management |
+| `pg_setup_kcache` | Complete pg_stat_kcache setup for OS-level monitoring |
+| `pg_setup_citext` | Complete citext setup for case-insensitive text |
+| `pg_setup_ltree` | Complete ltree setup for hierarchical data |
+| `pg_setup_pgcrypto` | Complete pgcrypto setup for cryptographic functions |
 
 ---
 
 ## 📦 Resources
 
-This server provides **14 resources** for structured data access:
+This server provides **20 resources** for structured data access:
 
 | Resource | URI | Description |
 |----------|-----|-------------|
@@ -225,6 +231,12 @@ This server provides **14 resources** for structured data access:
 | Replication | `postgres://replication` | Replication status and lag monitoring |
 | Vacuum | `postgres://vacuum` | Vacuum stats and wraparound warnings |
 | Locks | `postgres://locks` | Lock contention detection |
+| Cron | `postgres://cron` | pg_cron job status and execution history |
+| Partman | `postgres://partman` | pg_partman partition configuration and health |
+| Kcache | `postgres://kcache` | pg_stat_kcache CPU/I/O metrics summary |
+| Vector | `postgres://vector` | pgvector columns, indexes, and recommendations |
+| PostGIS | `postgres://postgis` | PostGIS spatial columns and index status |
+| Crypto | `postgres://crypto` | pgcrypto availability and security recommendations |
 
 ---
 

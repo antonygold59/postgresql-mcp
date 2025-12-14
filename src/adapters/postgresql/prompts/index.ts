@@ -2,7 +2,7 @@
  * PostgreSQL MCP Prompts
  * 
  * AI-powered prompts for query building, schema design, and optimization.
- * 13 prompts total.
+ * 19 prompts total.
  */
 
 import type { PostgresAdapter } from '../PostgresAdapter.js';
@@ -15,6 +15,12 @@ import { createIndexTuningPrompt } from './indexTuning.js';
 import { createExtensionSetupPrompt } from './extensionSetup.js';
 import { createSetupPgvectorPrompt } from './pgvector.js';
 import { createSetupPostgisPrompt } from './postgis.js';
+import { createSetupPgcronPrompt } from './pgcron.js';
+import { createSetupPartmanPrompt } from './partman.js';
+import { createSetupKcachePrompt } from './kcache.js';
+import { createSetupCitextPrompt } from './citext.js';
+import { createSetupLtreePrompt } from './ltree.js';
+import { createSetupPgcryptoPrompt } from './pgcrypto.js';
 
 /**
  * Get all PostgreSQL prompts
@@ -36,7 +42,14 @@ export function getPostgresPrompts(adapter: PostgresAdapter): PromptDefinition[]
         createIndexTuningPrompt(),
         createExtensionSetupPrompt(),
         createSetupPgvectorPrompt(),
-        createSetupPostgisPrompt()
+        createSetupPostgisPrompt(),
+        // Extension setup prompts
+        createSetupPgcronPrompt(),
+        createSetupPartmanPrompt(),
+        createSetupKcachePrompt(),
+        createSetupCitextPrompt(),
+        createSetupLtreePrompt(),
+        createSetupPgcryptoPrompt()
     ];
 }
 

@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- **14 resources** — migrated from legacy postgres-mcp-server
+- **20 resources** — migrated + new extension resources
   - `postgres://capabilities` — Server version, extensions, tool categories
   - `postgres://performance` — pg_stat_statements query metrics
   - `postgres://health` — Comprehensive database health status
@@ -17,14 +17,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `postgres://replication` — Replication status and lag monitoring
   - `postgres://vacuum` — Vacuum stats and wraparound warnings
   - `postgres://locks` — Lock contention detection
+  - `postgres://cron` — pg_cron job status, schedules, and execution history
+  - `postgres://partman` — pg_partman partition configuration and health status
+  - `postgres://kcache` — pg_stat_kcache CPU/I/O metrics summary
+  - `postgres://vector` — pgvector columns, indexes, and recommendations
+  - `postgres://postgis` — PostGIS spatial columns and index status
+  - `postgres://crypto` — pgcrypto availability and security recommendations
 - Enhanced `postgres://stats` with stale statistics detection and recommendations
-- **6 new prompts** — migrated from legacy postgres-mcp-server
+- **12 prompts** (6 migrated + 6 new extension-specific)
   - `pg_database_health_check` — Comprehensive health assessment workflow
   - `pg_backup_strategy` — Enterprise backup planning (logical/physical/PITR)
   - `pg_index_tuning` — Index usage analysis and optimization
   - `pg_extension_setup` — Extension installation guides
   - `pg_setup_pgvector` — Complete pgvector setup for semantic search
   - `pg_setup_postgis` — Complete PostGIS setup for geospatial operations
+  - `pg_setup_pgcron` — Complete pg_cron setup for job scheduling
+  - `pg_setup_partman` — Complete pg_partman setup for partition management
+  - `pg_setup_kcache` — Complete pg_stat_kcache setup for OS-level monitoring
+  - `pg_setup_citext` — Complete citext setup for case-insensitive text
+  - `pg_setup_ltree` — Complete ltree setup for hierarchical tree data
+  - `pg_setup_pgcrypto` — Complete pgcrypto setup for cryptographic functions
 - **8 pg_cron tools** — Job scheduling extension support
   - `pg_cron_create_extension` — Enable pg_cron
   - `pg_cron_schedule` — Schedule cron jobs

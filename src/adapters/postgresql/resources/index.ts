@@ -2,7 +2,7 @@
  * PostgreSQL MCP Resources
  * 
  * Provides structured data access via URI patterns.
- * 15 resources total.
+ * 20 resources total.
  */
 
 import type { PostgresAdapter } from '../PostgresAdapter.js';
@@ -26,8 +26,16 @@ import { createReplicationResource } from './replication.js';
 import { createVacuumResource } from './vacuum.js';
 import { createLocksResource } from './locks.js';
 
+// Extension status resources
+import { createCronResource } from './cron.js';
+import { createPartmanResource } from './partman.js';
+import { createKcacheResource } from './kcache.js';
+import { createVectorResource } from './vector.js';
+import { createPostgisResource } from './postgis.js';
+import { createCryptoResource } from './crypto.js';
+
 /**
- * Get all PostgreSQL resources (15 total)
+ * Get all PostgreSQL resources (20 total)
  * 
  * Core (6):
  * - postgres://schema - Full database schema
@@ -37,7 +45,7 @@ import { createLocksResource } from './locks.js';
  * - postgres://activity - Active connections and queries
  * - postgres://pool - Connection pool statistics
  * 
- * Migrated from legacy server (9):
+ * Migrated from legacy server (8):
  * - postgres://capabilities - Server version, extensions, tool categories
  * - postgres://performance - pg_stat_statements query metrics
  * - postgres://health - Comprehensive database health status
@@ -46,6 +54,14 @@ import { createLocksResource } from './locks.js';
  * - postgres://replication - Replication status and lag monitoring
  * - postgres://vacuum - Vacuum stats and wraparound warnings
  * - postgres://locks - Lock contention detection
+ * 
+ * Extension status (6):
+ * - postgres://cron - pg_cron job status and history
+ * - postgres://partman - pg_partman partition configuration
+ * - postgres://kcache - pg_stat_kcache CPU/I/O metrics
+ * - postgres://vector - pgvector columns and indexes
+ * - postgres://postgis - PostGIS spatial columns and indexes
+ * - postgres://crypto - pgcrypto availability and recommendations
  */
 export function getPostgresResources(adapter: PostgresAdapter): ResourceDefinition[] {
     return [
@@ -64,6 +80,14 @@ export function getPostgresResources(adapter: PostgresAdapter): ResourceDefiniti
         createIndexesResource(adapter),
         createReplicationResource(adapter),
         createVacuumResource(adapter),
-        createLocksResource(adapter)
+        createLocksResource(adapter),
+        // Extension status resources
+        createCronResource(adapter),
+        createPartmanResource(adapter),
+        createKcacheResource(adapter),
+        createVectorResource(adapter),
+        createPostgisResource(adapter),
+        createCryptoResource(adapter)
     ];
 }
+
