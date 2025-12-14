@@ -2,19 +2,19 @@
 
 <!-- mcp-name: io.github.neverinfamous/postgres-mcp -->
 
-*Last updated December 14, 2025 - Development Preview*
+*Last updated December 14, 2025 - Initial Implementation Complete*
 
 *Enterprise-grade PostgreSQL MCP Server with OAuth 2.0 authentication, connection pooling, tool filtering, plus support for pgvector, PostGIS, and advanced PostgreSQL features - TypeScript Edition*
 
-> **🚧 Development Preview** - Core infrastructure complete with 106 tools, 6 resources, and 7 prompts. Testing and documentation in progress.
+> **✅ Initial Implementation Complete** - 146 tools, 6 resources, and 7 prompts. Thorough testing before release in progress.
 
 [![GitHub](https://img.shields.io/badge/GitHub-neverinfamous/postgres--mcp-blue?logo=github)](https://github.com/neverinfamous/postgres-mcp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)](https://www.typescriptlang.org/)
 [![MCP](https://img.shields.io/badge/MCP-Compatible-green.svg)](https://modelcontextprotocol.io/)
-![Status](https://img.shields.io/badge/status-Development%20Preview-yellow)
+![Status](https://img.shields.io/badge/status-Testing-blue)
 
-A **PostgreSQL MCP Server** that enables AI assistants (Claude, Cursor, etc.) to interact with PostgreSQL databases through the Model Context Protocol. Provides **106 specialized tools**, **6 resources**, and **7 AI-powered prompts**.
+A **PostgreSQL MCP Server** that enables AI assistants (Claude, Cursor, etc.) to interact with PostgreSQL databases through the Model Context Protocol. Provides **146 specialized tools**, **6 resources**, and **7 AI-powered prompts**.
 
 ---
 
@@ -102,21 +102,22 @@ node dist/cli.js --transport stdio --postgres postgres://user:password@localhost
 
 ## 🛠️ Tool Categories
 
-This server provides **106 tools** across 12 categories:
+This server provides **146 tools** across 13 categories:
 
 | Category | Tools | Description |
 |----------|-------|-------------|
-| Core | 8 | CRUD, schema, tables, indexes |
+| Core | 13 | CRUD, schema, tables, indexes, health analysis |
 | Transactions | 7 | BEGIN, COMMIT, ROLLBACK, savepoints with isolation levels |
-| JSONB | 12 | jsonb_set, jsonb_extract, jsonb_path_query (PostgreSQL native) |
-| Text | 10 | Full-text search, trigram similarity, fuzzy matching |
-| Performance | 12 | EXPLAIN ANALYZE, pg_stat_statements, index recommendations |
+| JSONB | 19 | jsonb_set, jsonb_extract, jsonb_path_query, merge, diff, security scan |
+| Text | 11 | Full-text search, trigram similarity, fuzzy matching, sentiment |
+| Stats | 8 | Descriptive stats, percentiles, correlation, regression, time series |
+| Performance | 16 | EXPLAIN ANALYZE, plan compare, baseline, connection pool, partitioning |
 | Admin | 10 | VACUUM, ANALYZE, REINDEX, configuration |
-| Monitoring | 8 | Database sizes, connections, replication status |
-| Backup | 6 | pg_dump commands, COPY export/import |
+| Monitoring | 11 | Database sizes, connections, replication, capacity planning, alerts |
+| Backup | 9 | pg_dump, COPY, physical backup, restore validation, scheduling |
 | Schema | 10 | Schemas, sequences, views, functions, triggers |
-| Vector | 8 | pgvector extension - similarity search, HNSW/IVFFlat indexes |
-| PostGIS | 9 | Geospatial operations - distance, contains, intersection |
+| Vector | 14 | pgvector extension - similarity search, clustering, hybrid search |
+| PostGIS | 12 | Geospatial operations - distance, transform, clustering, index optimization |
 | Partitioning | 6 | Range/list/hash partitioning management |
 
 ---
@@ -124,23 +125,24 @@ This server provides **106 tools** across 12 categories:
 ## 🎛️ Tool Filtering
 
 > [!IMPORTANT]
-> **AI-enabled IDEs like Cursor have tool limits.** With 106 tools, you should use tool filtering to stay within limits.
+> **AI-enabled IDEs like Cursor have tool limits.** With 146 tools, you should use tool filtering to stay within limits.
 
 ### Tool Groups
 
 | Group | Tools | Description |
 |-------|-------|-------------|
-| `core` | 8 | Basic CRUD and schema operations |
+| `core` | 13 | Basic CRUD and schema operations |
 | `transactions` | 7 | Transaction control with savepoints |
-| `jsonb` | 12 | JSONB manipulation and queries |
-| `text` | 10 | Text search and similarity |
-| `performance` | 12 | Query analysis and optimization |
+| `jsonb` | 19 | JSONB manipulation and queries |
+| `text` | 11 | Text search and similarity |
+| `stats` | 8 | Statistical analysis |
+| `performance` | 16 | Query analysis and optimization |
 | `admin` | 10 | Database maintenance |
-| `monitoring` | 8 | Health and status monitoring |
-| `backup` | 6 | Export and backup commands |
+| `monitoring` | 11 | Health and status monitoring |
+| `backup` | 9 | Export and backup commands |
 | `schema` | 10 | DDL operations |
-| `vector` | 8 | pgvector extension |
-| `postgis` | 9 | PostGIS extension |
+| `vector` | 14 | pgvector extension |
+| `postgis` | 12 | PostGIS extension |
 | `partitioning` | 6 | Partition management |
 
 ### Filter Presets
@@ -206,8 +208,8 @@ This server includes **7 intelligent prompts** for guided workflows:
 | `pg_trgm` | Text similarity | `pg_trigram_similarity` |
 | `fuzzystrmatch` | Fuzzy matching | `pg_fuzzy_match` |
 | `hypopg` | Hypothetical indexes | `pg_index_recommendations` |
-| `pgvector` | Vector similarity search | 8 vector tools |
-| `PostGIS` | Geospatial operations | 9 postgis tools |
+| `pgvector` | Vector similarity search | 14 vector tools |
+| `PostGIS` | Geospatial operations | 12 postgis tools |
 
 > Extension tools gracefully handle cases where extensions are not installed.
 
@@ -234,7 +236,7 @@ This server includes **7 intelligent prompts** for guided workflows:
 ## 🏆 Why Choose postgres-mcp?
 
 ✅ **TypeScript Native** - Full type safety with strict mode  
-✅ **106 Specialized Tools** - Comprehensive PostgreSQL coverage  
+✅ **146 Specialized Tools** - Comprehensive PostgreSQL coverage  
 ✅ **Connection Pooling** - Efficient PostgreSQL connection management  
 ✅ **Extension Support** - pgvector, PostGIS, pg_stat_statements  
 ✅ **Tool Filtering** - Stay within AI IDE tool limits  

@@ -7,9 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Planned
+- Verify prompts and resources from old Python server are ported
+- Verify all PostgreSQL extensions are supported
+- Comprehensive testing before v1.0 release
+
+## [0.2.0] - 2025-12-14
+
 ### Added
-- Initial project setup
-- Repository configuration
+- **146 total tools** — comprehensive PostgreSQL coverage
+- **Core tools** (13): `pg_list_objects`, `pg_object_details`, `pg_analyze_db_health`, `pg_analyze_workload_indexes`, `pg_analyze_query_indexes`
+- **JSONB tools** (19): `pg_jsonb_validate_path`, `pg_jsonb_stats`, `pg_jsonb_merge`, `pg_jsonb_normalize`, `pg_jsonb_diff`, `pg_jsonb_index_suggest`, `pg_jsonb_security_scan`
+- **Stats tools** (8): New group — `pg_stats_descriptive`, `pg_stats_percentiles`, `pg_stats_correlation`, `pg_stats_regression`, `pg_stats_time_series`, `pg_stats_distribution`, `pg_stats_hypothesis`, `pg_stats_sampling`
+- **Vector tools** (14): `pg_vector_cluster`, `pg_vector_index_optimize`, `pg_vector_dimension_reduce`, `pg_hybrid_search`, `pg_vector_performance`, `pg_vector_embed`
+- **Performance tools** (16): `pg_query_plan_compare`, `pg_performance_baseline`, `pg_connection_pool_optimize`, `pg_partition_strategy_suggest`
+- **Monitoring tools** (11): `pg_capacity_planning`, `pg_resource_usage_analyze`, `pg_alert_threshold_set`
+- **Backup tools** (9): `pg_backup_physical`, `pg_restore_validate`, `pg_backup_schedule_optimize`
+- **PostGIS tools** (12): `pg_geo_transform`, `pg_geo_index_optimize`, `pg_geo_cluster`
+- **Text tools** (11): `pg_text_sentiment`
+- Tool filtering with `TOOL_GROUPS` for all 146 tools
+
+### Changed
+- Status from "Development Preview" to "Initial Implementation Complete"
+- Updated README with accurate tool counts and categories
 
 ## [0.1.0] - 2025-12-13
 
@@ -18,3 +38,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Community standards (LICENSE, CONTRIBUTING, CODE_OF_CONDUCT, SECURITY)
 - GitHub automation (CodeQL, Dependabot, issue/PR templates)
 - Project configuration (TypeScript, ESLint, package.json)
+- Core infrastructure with 106 base tools
+- Connection pooling with health checks
+- Tool filtering system
+- 6 resources and 7 AI-powered prompts
+
