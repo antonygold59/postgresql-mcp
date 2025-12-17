@@ -9,6 +9,7 @@ import type { PostgresAdapter } from '../PostgresAdapter.js';
 import type { ToolDefinition, RequestContext } from '../../../types/index.js';
 import { z } from 'zod';
 import { readOnly, write } from '../../../utils/annotations.js';
+import { getToolIcons } from '../../../utils/icons.js';
 import {
     TextSearchSchema,
     TrigramSimilaritySchema,
@@ -41,6 +42,7 @@ function createTextSearchTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'text',
         inputSchema: TextSearchSchema,
         annotations: readOnly('Full-Text Search'),
+        icons: getToolIcons('text', readOnly('Full-Text Search')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { table, columns, query, config, select, limit } = TextSearchSchema.parse(params);
             const cfg = config ?? 'english';
@@ -72,6 +74,7 @@ function createTextRankTool(adapter: PostgresAdapter): ToolDefinition {
             normalization: z.number().optional()
         }),
         annotations: readOnly('Text Rank'),
+        icons: getToolIcons('text', readOnly('Text Rank')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { table: string; column: string; query: string; config?: string; normalization?: number });
             const cfg = parsed.config ?? 'english';
@@ -95,6 +98,7 @@ function createTrigramSimilarityTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'text',
         inputSchema: TrigramSimilaritySchema,
         annotations: readOnly('Trigram Similarity'),
+        icons: getToolIcons('text', readOnly('Trigram Similarity')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { table, column, value, threshold, limit } = TrigramSimilaritySchema.parse(params);
             const thresh = threshold ?? 0.3;
@@ -125,6 +129,7 @@ function createFuzzyMatchTool(adapter: PostgresAdapter): ToolDefinition {
             limit: z.number().optional()
         }),
         annotations: readOnly('Fuzzy Match'),
+        icons: getToolIcons('text', readOnly('Fuzzy Match')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { table: string; column: string; value: string; method?: string; maxDistance?: number; limit?: number });
             const method = parsed.method ?? 'levenshtein';
@@ -153,6 +158,7 @@ function createRegexpMatchTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'text',
         inputSchema: RegexpMatchSchema,
         annotations: readOnly('Regexp Match'),
+        icons: getToolIcons('text', readOnly('Regexp Match')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { table, column, pattern, flags, select } = RegexpMatchSchema.parse(params);
             const selectCols = select !== undefined && select.length > 0 ? select.map(c => `"${c}"`).join(', ') : '*';
@@ -179,6 +185,7 @@ function createLikeSearchTool(adapter: PostgresAdapter): ToolDefinition {
             limit: z.number().optional()
         }),
         annotations: readOnly('LIKE Search'),
+        icons: getToolIcons('text', readOnly('LIKE Search')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { table: string; column: string; pattern: string; caseInsensitive?: boolean; select?: string[]; limit?: number });
             const selectCols = parsed.select !== undefined && parsed.select.length > 0 ? parsed.select.map(c => `"${c}"`).join(', ') : '*';
@@ -205,6 +212,7 @@ function createSimilaritySearchTool(adapter: PostgresAdapter): ToolDefinition {
             select: z.array(z.string()).optional()
         }),
         annotations: readOnly('Similarity Search'),
+        icons: getToolIcons('text', readOnly('Similarity Search')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { table: string; column: string; value: string; threshold?: number; select?: string[] });
             const thresh = parsed.threshold ?? 0.3;
@@ -236,6 +244,7 @@ function createTextHeadlineTool(adapter: PostgresAdapter): ToolDefinition {
             options: z.string().optional()
         }),
         annotations: readOnly('Text Headline'),
+        icons: getToolIcons('text', readOnly('Text Headline')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { table: string; column: string; query: string; config?: string; options?: string });
             const cfg = parsed.config ?? 'english';
@@ -263,6 +272,7 @@ function createFtsIndexTool(adapter: PostgresAdapter): ToolDefinition {
             config: z.string().optional()
         }),
         annotations: write('Create FTS Index'),
+        icons: getToolIcons('text', write('Create FTS Index')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { table: string; column: string; name?: string; config?: string });
             const cfg = parsed.config ?? 'english';
@@ -285,6 +295,7 @@ function createTextNormalizeTool(adapter: PostgresAdapter): ToolDefinition {
             text: z.string()
         }),
         annotations: readOnly('Text Normalize'),
+        icons: getToolIcons('text', readOnly('Text Normalize')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { text: string });
             const result = await adapter.executeQuery(`SELECT unaccent($1) as normalized`, [parsed.text]);
@@ -306,6 +317,7 @@ function createTextSentimentTool(_adapter: PostgresAdapter): ToolDefinition {
             returnWords: z.boolean().optional().describe('Return matched sentiment words')
         }),
         annotations: readOnly('Text Sentiment'),
+        icons: getToolIcons('text', readOnly('Text Sentiment')),
         // eslint-disable-next-line @typescript-eslint/require-await
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { text: string; returnWords?: boolean });

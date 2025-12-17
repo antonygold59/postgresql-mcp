@@ -12,6 +12,7 @@ import type { PostgresAdapter } from '../PostgresAdapter.js';
 import type { ToolDefinition, RequestContext } from '../../../types/index.js';
 import { z } from 'zod';
 import { readOnly, write, destructive } from '../../../utils/annotations.js';
+import { getToolIcons } from '../../../utils/icons.js';
 import {
     CronScheduleSchema,
     CronScheduleInDatabaseSchema,
@@ -46,6 +47,7 @@ function createCronExtensionTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'cron',
         inputSchema: z.object({}),
         annotations: write('Create Cron Extension'),
+        icons: getToolIcons('cron', write('Create Cron Extension')),
         handler: async (_params: unknown, _context: RequestContext) => {
             await adapter.executeQuery('CREATE EXTENSION IF NOT EXISTS pg_cron');
             return { success: true, message: 'pg_cron extension enabled' };
@@ -64,6 +66,7 @@ or interval syntax (e.g., "30 seconds"). Returns the job ID.`,
         group: 'cron',
         inputSchema: CronScheduleSchema,
         annotations: write('Schedule Cron Job'),
+        icons: getToolIcons('cron', write('Schedule Cron Job')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { schedule, command, jobName } = CronScheduleSchema.parse(params);
 
@@ -104,6 +107,7 @@ maintenance tasks. Returns the job ID.`,
         group: 'cron',
         inputSchema: CronScheduleInDatabaseSchema,
         annotations: write('Schedule Cron in Database'),
+        icons: getToolIcons('cron', write('Schedule Cron in Database')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { jobName, schedule, command, database, username, active } =
                 CronScheduleInDatabaseSchema.parse(params);
@@ -143,6 +147,7 @@ function createCronUnscheduleTool(adapter: PostgresAdapter): ToolDefinition {
             jobName: z.string().optional().describe('Job name to remove')
         }),
         annotations: destructive('Unschedule Cron Job'),
+        icons: getToolIcons('cron', destructive('Unschedule Cron Job')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = params as { jobId?: number; jobName?: string };
 
@@ -185,6 +190,7 @@ or active status. Only specify the parameters you want to change.`,
         group: 'cron',
         inputSchema: CronAlterJobSchema,
         annotations: write('Alter Cron Job'),
+        icons: getToolIcons('cron', write('Alter Cron Job')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { jobId, schedule, command, database, username, active } =
                 CronAlterJobSchema.parse(params);
@@ -229,6 +235,7 @@ function createCronListJobsTool(adapter: PostgresAdapter): ToolDefinition {
             active: z.boolean().optional().describe('Filter by active status')
         }),
         annotations: readOnly('List Cron Jobs'),
+        icons: getToolIcons('cron', readOnly('List Cron Jobs')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = params as { active?: boolean };
 
@@ -275,6 +282,7 @@ Useful for monitoring and debugging scheduled jobs.`,
         group: 'cron',
         inputSchema: CronJobRunDetailsSchema,
         annotations: readOnly('Cron Job Run Details'),
+        icons: getToolIcons('cron', readOnly('Cron Job Run Details')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { jobId, status, limit } = CronJobRunDetailsSchema.parse(params);
 
@@ -347,6 +355,7 @@ from growing too large. By default, removes records older than 7 days.`,
         group: 'cron',
         inputSchema: CronCleanupHistorySchema,
         annotations: destructive('Cleanup Cron History'),
+        icons: getToolIcons('cron', destructive('Cleanup Cron History')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { olderThanDays, jobId } = CronCleanupHistorySchema.parse(params);
 

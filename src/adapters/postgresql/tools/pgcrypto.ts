@@ -7,6 +7,7 @@ import type { PostgresAdapter } from '../PostgresAdapter.js';
 import type { ToolDefinition, RequestContext } from '../../../types/index.js';
 import { z } from 'zod';
 import { readOnly, write } from '../../../utils/annotations.js';
+import { getToolIcons } from '../../../utils/icons.js';
 import {
     PgcryptoHashSchema, PgcryptoHmacSchema, PgcryptoEncryptSchema,
     PgcryptoDecryptSchema, PgcryptoRandomBytesSchema, PgcryptoGenSaltSchema, PgcryptoCryptSchema
@@ -29,6 +30,7 @@ function createPgcryptoExtensionTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'pgcrypto',
         inputSchema: z.object({}),
         annotations: write('Create Pgcrypto Extension'),
+        icons: getToolIcons('pgcrypto', write('Create Pgcrypto Extension')),
         handler: async (_params: unknown, _context: RequestContext) => {
             await adapter.executeQuery('CREATE EXTENSION IF NOT EXISTS pgcrypto');
             return { success: true, message: 'pgcrypto extension enabled' };
@@ -43,6 +45,7 @@ function createPgcryptoHashTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'pgcrypto',
         inputSchema: PgcryptoHashSchema,
         annotations: readOnly('Hash Data'),
+        icons: getToolIcons('pgcrypto', readOnly('Hash Data')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { data, algorithm, encoding } = PgcryptoHashSchema.parse(params);
             const enc = encoding ?? 'hex';
@@ -60,6 +63,7 @@ function createPgcryptoHmacTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'pgcrypto',
         inputSchema: PgcryptoHmacSchema,
         annotations: readOnly('HMAC'),
+        icons: getToolIcons('pgcrypto', readOnly('HMAC')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { data, key, algorithm, encoding } = PgcryptoHmacSchema.parse(params);
             const enc = encoding ?? 'hex';
@@ -77,6 +81,7 @@ function createPgcryptoEncryptTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'pgcrypto',
         inputSchema: PgcryptoEncryptSchema,
         annotations: readOnly('Encrypt Data'),
+        icons: getToolIcons('pgcrypto', readOnly('Encrypt Data')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { data, password, options } = PgcryptoEncryptSchema.parse(params);
             const sql = options !== undefined
@@ -96,6 +101,7 @@ function createPgcryptoDecryptTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'pgcrypto',
         inputSchema: PgcryptoDecryptSchema,
         annotations: readOnly('Decrypt Data'),
+        icons: getToolIcons('pgcrypto', readOnly('Decrypt Data')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { encryptedData, password } = PgcryptoDecryptSchema.parse(params);
             try {
@@ -115,6 +121,7 @@ function createPgcryptoGenRandomUuidTool(adapter: PostgresAdapter): ToolDefiniti
         group: 'pgcrypto',
         inputSchema: z.object({ count: z.number().min(1).max(100).optional().describe('Number of UUIDs to generate (default: 1)') }),
         annotations: readOnly('Generate UUID'),
+        icons: getToolIcons('pgcrypto', readOnly('Generate UUID')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { count } = (params as { count?: number });
             const generateCount = count ?? 1;
@@ -132,6 +139,7 @@ function createPgcryptoGenRandomBytesTool(adapter: PostgresAdapter): ToolDefinit
         group: 'pgcrypto',
         inputSchema: PgcryptoRandomBytesSchema,
         annotations: readOnly('Generate Random Bytes'),
+        icons: getToolIcons('pgcrypto', readOnly('Generate Random Bytes')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { length, encoding } = PgcryptoRandomBytesSchema.parse(params);
             const enc = encoding ?? 'hex';
@@ -149,6 +157,7 @@ function createPgcryptoGenSaltTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'pgcrypto',
         inputSchema: PgcryptoGenSaltSchema,
         annotations: readOnly('Generate Salt'),
+        icons: getToolIcons('pgcrypto', readOnly('Generate Salt')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { type, iterations } = PgcryptoGenSaltSchema.parse(params);
             const result = iterations !== undefined && (type === 'bf' || type === 'xdes')
@@ -166,6 +175,7 @@ function createPgcryptoCryptTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'pgcrypto',
         inputSchema: PgcryptoCryptSchema,
         annotations: readOnly('Crypt Password'),
+        icons: getToolIcons('pgcrypto', readOnly('Crypt Password')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { password, salt } = PgcryptoCryptSchema.parse(params);
             const result = await adapter.executeQuery(`SELECT crypt($1, $2) as hash`, [password, salt]);

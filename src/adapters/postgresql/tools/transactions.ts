@@ -8,6 +8,7 @@
 import type { PostgresAdapter } from '../PostgresAdapter.js';
 import type { ToolDefinition, RequestContext } from '../../../types/index.js';
 import { write } from '../../../utils/annotations.js';
+import { getToolIcons } from '../../../utils/icons.js';
 import {
     BeginTransactionSchema,
     TransactionIdSchema,
@@ -37,6 +38,7 @@ function createBeginTransactionTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'transactions',
         inputSchema: BeginTransactionSchema,
         annotations: write('Begin Transaction'),
+        icons: getToolIcons('transactions', write('Begin Transaction')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { isolationLevel } = BeginTransactionSchema.parse(params);
             const transactionId = await adapter.beginTransaction(isolationLevel);
@@ -56,6 +58,7 @@ function createCommitTransactionTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'transactions',
         inputSchema: TransactionIdSchema,
         annotations: write('Commit Transaction'),
+        icons: getToolIcons('transactions', write('Commit Transaction')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { transactionId } = TransactionIdSchema.parse(params);
             await adapter.commitTransaction(transactionId);
@@ -75,6 +78,7 @@ function createRollbackTransactionTool(adapter: PostgresAdapter): ToolDefinition
         group: 'transactions',
         inputSchema: TransactionIdSchema,
         annotations: write('Rollback Transaction'),
+        icons: getToolIcons('transactions', write('Rollback Transaction')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { transactionId } = TransactionIdSchema.parse(params);
             await adapter.rollbackTransaction(transactionId);
@@ -94,6 +98,7 @@ function createSavepointTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'transactions',
         inputSchema: SavepointSchema,
         annotations: write('Create Savepoint'),
+        icons: getToolIcons('transactions', write('Create Savepoint')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { transactionId, name } = SavepointSchema.parse(params);
             await adapter.createSavepoint(transactionId, name);
@@ -114,6 +119,7 @@ function createReleaseSavepointTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'transactions',
         inputSchema: SavepointSchema,
         annotations: write('Release Savepoint'),
+        icons: getToolIcons('transactions', write('Release Savepoint')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { transactionId, name } = SavepointSchema.parse(params);
             await adapter.releaseSavepoint(transactionId, name);
@@ -134,6 +140,7 @@ function createRollbackToSavepointTool(adapter: PostgresAdapter): ToolDefinition
         group: 'transactions',
         inputSchema: SavepointSchema,
         annotations: write('Rollback to Savepoint'),
+        icons: getToolIcons('transactions', write('Rollback to Savepoint')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { transactionId, name } = SavepointSchema.parse(params);
             await adapter.rollbackToSavepoint(transactionId, name);
@@ -154,6 +161,7 @@ function createTransactionExecuteTool(adapter: PostgresAdapter): ToolDefinition 
         group: 'transactions',
         inputSchema: TransactionExecuteSchema,
         annotations: write('Transaction Execute'),
+        icons: getToolIcons('transactions', write('Transaction Execute')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { statements, isolationLevel } = TransactionExecuteSchema.parse(params);
 

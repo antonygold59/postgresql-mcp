@@ -9,6 +9,7 @@ import type { PostgresAdapter } from '../PostgresAdapter.js';
 import type { ToolDefinition, RequestContext } from '../../../types/index.js';
 import { z } from 'zod';
 import { readOnly, write } from '../../../utils/annotations.js';
+import { getToolIcons } from '../../../utils/icons.js';
 import { CopyExportSchema, DumpSchemaSchema } from '../types.js';
 
 /**
@@ -39,6 +40,7 @@ function createDumpTableTool(adapter: PostgresAdapter): ToolDefinition {
             includeData: z.boolean().optional()
         }),
         annotations: readOnly('Dump Table'),
+        icons: getToolIcons('backup', readOnly('Dump Table')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { table: string; schema?: string; includeData?: boolean });
             const schemaName = parsed.schema ?? 'public';
@@ -99,6 +101,7 @@ function createDumpSchemaTool(_adapter: PostgresAdapter): ToolDefinition {
         group: 'backup',
         inputSchema: DumpSchemaSchema,
         annotations: readOnly('Dump Schema'),
+        icons: getToolIcons('backup', readOnly('Dump Schema')),
         // eslint-disable-next-line @typescript-eslint/require-await
         handler: async (params: unknown, _context: RequestContext) => {
             const { table, schema } = DumpSchemaSchema.parse(params);
@@ -137,6 +140,7 @@ function createCopyExportTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'backup',
         inputSchema: CopyExportSchema,
         annotations: readOnly('Copy Export'),
+        icons: getToolIcons('backup', readOnly('Copy Export')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { query, format, header, delimiter } = CopyExportSchema.parse(params);
 
@@ -200,6 +204,7 @@ function createCopyImportTool(_adapter: PostgresAdapter): ToolDefinition {
             columns: z.array(z.string()).optional()
         }),
         annotations: write('Copy Import'),
+        icons: getToolIcons('backup', write('Copy Import')),
         // eslint-disable-next-line @typescript-eslint/require-await
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as {
@@ -243,6 +248,7 @@ function createBackupPlanTool(adapter: PostgresAdapter): ToolDefinition {
             retention: z.number().optional()
         }),
         annotations: readOnly('Create Backup Plan'),
+        icons: getToolIcons('backup', readOnly('Create Backup Plan')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { frequency?: string; retention?: number });
             const freq = parsed.frequency ?? 'daily';
@@ -293,6 +299,7 @@ function createRestoreCommandTool(_adapter: PostgresAdapter): ToolDefinition {
             schemaOnly: z.boolean().optional()
         }),
         annotations: readOnly('Restore Command'),
+        icons: getToolIcons('backup', readOnly('Restore Command')),
         // eslint-disable-next-line @typescript-eslint/require-await
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as {
@@ -342,6 +349,7 @@ function createPhysicalBackupTool(_adapter: PostgresAdapter): ToolDefinition {
             compress: z.number().optional().describe('Compression level 0-9')
         }),
         annotations: readOnly('Physical Backup'),
+        icons: getToolIcons('backup', readOnly('Physical Backup')),
         // eslint-disable-next-line @typescript-eslint/require-await
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as {
@@ -399,6 +407,7 @@ function createRestoreValidateTool(_adapter: PostgresAdapter): ToolDefinition {
             backupType: z.enum(['pg_dump', 'pg_basebackup']).optional()
         }),
         annotations: readOnly('Restore Validate'),
+        icons: getToolIcons('backup', readOnly('Restore Validate')),
         // eslint-disable-next-line @typescript-eslint/require-await
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { backupFile: string; backupType?: string });
@@ -474,6 +483,7 @@ function createBackupScheduleOptimizeTool(adapter: PostgresAdapter): ToolDefinit
         group: 'backup',
         inputSchema: z.object({}),
         annotations: readOnly('Backup Schedule Optimize'),
+        icons: getToolIcons('backup', readOnly('Backup Schedule Optimize')),
         handler: async (_params: unknown, _context: RequestContext) => {
             const [dbSize, changeRate, connActivity] = await Promise.all([
                 adapter.executeQuery(`

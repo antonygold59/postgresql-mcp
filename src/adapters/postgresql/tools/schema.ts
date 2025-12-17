@@ -9,6 +9,7 @@ import type { PostgresAdapter } from '../PostgresAdapter.js';
 import type { ToolDefinition, RequestContext } from '../../../types/index.js';
 import { z } from 'zod';
 import { readOnly, write, destructive } from '../../../utils/annotations.js';
+import { getToolIcons } from '../../../utils/icons.js';
 import { CreateSchemaSchema, DropSchemaSchema, CreateSequenceSchema, CreateViewSchema } from '../types.js';
 
 /**
@@ -36,6 +37,7 @@ function createListSchemasTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'schema',
         inputSchema: z.object({}),
         annotations: readOnly('List Schemas'),
+        icons: getToolIcons('schema', readOnly('List Schemas')),
         handler: async (_params: unknown, _context: RequestContext) => {
             const schemas = await adapter.listSchemas();
             return { schemas, count: schemas.length };
@@ -50,6 +52,7 @@ function createCreateSchemaTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'schema',
         inputSchema: CreateSchemaSchema,
         annotations: write('Create Schema'),
+        icons: getToolIcons('schema', write('Create Schema')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { name, authorization, ifNotExists } = CreateSchemaSchema.parse(params);
             const ifNotExistsClause = ifNotExists ? 'IF NOT EXISTS ' : '';
@@ -69,6 +72,7 @@ function createDropSchemaTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'schema',
         inputSchema: DropSchemaSchema,
         annotations: destructive('Drop Schema'),
+        icons: getToolIcons('schema', destructive('Drop Schema')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { name, cascade, ifExists } = DropSchemaSchema.parse(params);
             const ifExistsClause = ifExists ? 'IF EXISTS ' : '';
@@ -90,6 +94,7 @@ function createListSequencesTool(adapter: PostgresAdapter): ToolDefinition {
             schema: z.string().optional()
         }),
         annotations: readOnly('List Sequences'),
+        icons: getToolIcons('schema', readOnly('List Sequences')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { schema?: string });
             const schemaClause = parsed.schema ? `AND n.nspname = '${parsed.schema}'` : '';
@@ -119,6 +124,7 @@ function createCreateSequenceTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'schema',
         inputSchema: CreateSequenceSchema,
         annotations: write('Create Sequence'),
+        icons: getToolIcons('schema', write('Create Sequence')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { name, schema, start, increment, minValue, maxValue, cycle } = CreateSequenceSchema.parse(params);
 
@@ -148,6 +154,7 @@ function createListViewsTool(adapter: PostgresAdapter): ToolDefinition {
             includeMaterialized: z.boolean().optional()
         }),
         annotations: readOnly('List Views'),
+        icons: getToolIcons('schema', readOnly('List Views')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { schema?: string; includeMaterialized?: boolean });
             const schemaClause = parsed.schema ? `AND n.nspname = '${parsed.schema}'` : '';
@@ -176,6 +183,7 @@ function createCreateViewTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'schema',
         inputSchema: CreateViewSchema,
         annotations: write('Create View'),
+        icons: getToolIcons('schema', write('Create View')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { name, schema, query, materialized, orReplace } = CreateViewSchema.parse(params);
 
@@ -199,6 +207,7 @@ function createListFunctionsTool(adapter: PostgresAdapter): ToolDefinition {
             schema: z.string().optional()
         }),
         annotations: readOnly('List Functions'),
+        icons: getToolIcons('schema', readOnly('List Functions')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { schema?: string });
             const schemaClause = parsed.schema ? `AND n.nspname = '${parsed.schema}'` : '';
@@ -231,6 +240,7 @@ function createListTriggersTool(adapter: PostgresAdapter): ToolDefinition {
             table: z.string().optional()
         }),
         annotations: readOnly('List Triggers'),
+        icons: getToolIcons('schema', readOnly('List Triggers')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { schema?: string; table?: string });
             let whereClause = "n.nspname NOT IN ('pg_catalog', 'information_schema')";
@@ -271,6 +281,7 @@ function createListConstraintsTool(adapter: PostgresAdapter): ToolDefinition {
             type: z.enum(['primary_key', 'foreign_key', 'unique', 'check']).optional()
         }),
         annotations: readOnly('List Constraints'),
+        icons: getToolIcons('schema', readOnly('List Constraints')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { table?: string; schema?: string; type?: string });
 

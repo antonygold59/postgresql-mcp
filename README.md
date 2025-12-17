@@ -391,6 +391,42 @@ Tools are categorized by their behavior:
 > [!TIP]
 > MCP clients can use these annotations to display appropriate icons, require confirmation for destructive operations, or filter tools by capability.
 
+## 🎨 Tool Icons
+
+All 194 tools include **Tool Icons** (MCP SDK 1.25+), providing visual representations for MCP client UIs:
+
+| Icon Type | Description | Applied To |
+|-----------|-------------|------------|
+| **Category Icons** | 19 colored shapes for tool categories | Default for all tools |
+| **Warning Icon** | Red triangle | Destructive tools (DROP, DELETE, TRUNCATE) |
+| **Admin Icon** | Orange gear | Admin tools (VACUUM, ANALYZE, REINDEX) |
+
+Icons are embedded as **SVG data URIs** for maximum portability — no external hosting required.
+
+### Category Icon Colors
+
+| Category | Color | Icon |
+|----------|-------|------|
+| Core | Blue | Database cylinder |
+| Transactions | Purple | Circular arrows |
+| JSONB | Orange | Curly braces |
+| Text | Cyan | Search magnifier |
+| Performance | Green | Gauge |
+| Admin | Gray | Wrench |
+| Monitoring | Indigo | Eye |
+| Backup | Slate | Download arrow |
+| Schema | Teal | Table grid |
+| Vector | Violet | 3D cube |
+| PostGIS | Emerald | Globe |
+| Partitioning | Rose | Pie chart |
+| Stats | Sky | Bar chart |
+| Cron | Amber | Clock |
+| Partman | Fuchsia | Calendar |
+| Kcache | Red | CPU chip |
+| Citext | Lime | Aa letters |
+| Ltree | Green | Tree |
+| Pgcrypto | Yellow | Lock |
+
 ---
 
 ## 🔥 Core Capabilities

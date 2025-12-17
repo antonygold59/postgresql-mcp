@@ -9,6 +9,7 @@ import type { PostgresAdapter } from '../PostgresAdapter.js';
 import type { ToolDefinition, RequestContext } from '../../../types/index.js';
 import { z } from 'zod';
 import { readOnly, write } from '../../../utils/annotations.js';
+import { getToolIcons } from '../../../utils/icons.js';
 import { GeometryDistanceSchema, PointInPolygonSchema, SpatialIndexSchema } from '../types.js';
 
 /**
@@ -38,6 +39,7 @@ function createPostgisExtensionTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'postgis',
         inputSchema: z.object({}),
         annotations: write('Create PostGIS Extension'),
+        icons: getToolIcons('postgis', write('Create PostGIS Extension')),
         handler: async (_params: unknown, _context: RequestContext) => {
             await adapter.executeQuery('CREATE EXTENSION IF NOT EXISTS postgis');
             return { success: true, message: 'PostGIS extension enabled' };
@@ -58,6 +60,7 @@ function createGeometryColumnTool(adapter: PostgresAdapter): ToolDefinition {
             schema: z.string().optional()
         }),
         annotations: write('Add Geometry Column'),
+        icons: getToolIcons('postgis', write('Add Geometry Column')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as {
                 table: string;
@@ -86,6 +89,7 @@ function createPointInPolygonTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'postgis',
         inputSchema: PointInPolygonSchema,
         annotations: readOnly('Point in Polygon'),
+        icons: getToolIcons('postgis', readOnly('Point in Polygon')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { table, column, point } = PointInPolygonSchema.parse(params);
 
@@ -106,6 +110,7 @@ function createDistanceTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'postgis',
         inputSchema: GeometryDistanceSchema,
         annotations: readOnly('Distance Search'),
+        icons: getToolIcons('postgis', readOnly('Distance Search')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { table, column, point, limit, maxDistance } = GeometryDistanceSchema.parse(params);
 
@@ -137,6 +142,7 @@ function createBufferTool(adapter: PostgresAdapter): ToolDefinition {
             where: z.string().optional()
         }),
         annotations: readOnly('Buffer Zone'),
+        icons: getToolIcons('postgis', readOnly('Buffer Zone')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { table: string; column: string; distance: number; where?: string });
             const whereClause = parsed.where ? ` WHERE ${parsed.where}` : '';
@@ -162,6 +168,7 @@ function createIntersectionTool(adapter: PostgresAdapter): ToolDefinition {
             select: z.array(z.string()).optional()
         }),
         annotations: readOnly('Intersection Search'),
+        icons: getToolIcons('postgis', readOnly('Intersection Search')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { table: string; column: string; geometry: string; select?: string[] });
             const selectCols = parsed.select !== undefined && parsed.select.length > 0 ? parsed.select.map(c => `"${c}"`).join(', ') : '*';
@@ -196,6 +203,7 @@ function createBoundingBoxTool(adapter: PostgresAdapter): ToolDefinition {
             select: z.array(z.string()).optional()
         }),
         annotations: readOnly('Bounding Box Search'),
+        icons: getToolIcons('postgis', readOnly('Bounding Box Search')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as {
                 table: string;
@@ -228,6 +236,7 @@ function createSpatialIndexTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'postgis',
         inputSchema: SpatialIndexSchema,
         annotations: write('Create Spatial Index'),
+        icons: getToolIcons('postgis', write('Create Spatial Index')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { table, column, name } = SpatialIndexSchema.parse(params);
             const indexName = name ?? `idx_${table}_${column}_gist`;
@@ -250,6 +259,7 @@ function createGeocodeTool(adapter: PostgresAdapter): ToolDefinition {
             srid: z.number().optional()
         }),
         annotations: readOnly('Geocode'),
+        icons: getToolIcons('postgis', readOnly('Geocode')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { lat: number; lng: number; srid?: number });
             const srid = parsed.srid ?? 4326;
@@ -281,6 +291,7 @@ function createGeoTransformTool(adapter: PostgresAdapter): ToolDefinition {
             limit: z.number().optional().describe('Maximum rows to return')
         }),
         annotations: readOnly('Transform Geometry'),
+        icons: getToolIcons('postgis', readOnly('Transform Geometry')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as {
                 table: string;
@@ -329,6 +340,7 @@ function createGeoIndexOptimizeTool(adapter: PostgresAdapter): ToolDefinition {
             schema: z.string().optional().describe('Schema name')
         }),
         annotations: readOnly('Geo Index Optimize'),
+        icons: getToolIcons('postgis', readOnly('Geo Index Optimize')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { table?: string; schema?: string });
             const schemaName = parsed.schema ?? 'public';
@@ -428,6 +440,7 @@ function createGeoClusterTool(adapter: PostgresAdapter): ToolDefinition {
             limit: z.number().optional()
         }),
         annotations: readOnly('Geo Cluster'),
+        icons: getToolIcons('postgis', readOnly('Geo Cluster')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as {
                 table: string;

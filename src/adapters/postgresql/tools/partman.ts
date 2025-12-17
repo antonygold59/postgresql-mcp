@@ -12,6 +12,7 @@ import type { PostgresAdapter } from '../PostgresAdapter.js';
 import type { ToolDefinition, RequestContext } from '../../../types/index.js';
 import { z } from 'zod';
 import { readOnly, write, destructive } from '../../../utils/annotations.js';
+import { getToolIcons } from '../../../utils/icons.js';
 import {
     PartmanCreateParentSchema,
     PartmanRunMaintenanceSchema,
@@ -50,6 +51,7 @@ function createPartmanExtensionTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'partman',
         inputSchema: z.object({}),
         annotations: write('Create Partman Extension'),
+        icons: getToolIcons('partman', write('Create Partman Extension')),
         handler: async (_params: unknown, _context: RequestContext) => {
             await adapter.executeQuery('CREATE EXTENSION IF NOT EXISTS pg_partman');
             return { success: true, message: 'pg_partman extension enabled' };
@@ -69,6 +71,7 @@ The parent table must already exist before calling this function.`,
         group: 'partman',
         inputSchema: PartmanCreateParentSchema,
         annotations: write('Create Partition Parent'),
+        icons: getToolIcons('partman', write('Create Partition Parent')),
         handler: async (params: unknown, _context: RequestContext) => {
             const {
                 parentTable,
@@ -131,6 +134,7 @@ Maintains all partition sets if no specific parent table is specified.`,
         group: 'partman',
         inputSchema: PartmanRunMaintenanceSchema,
         annotations: write('Run Partition Maintenance'),
+        icons: getToolIcons('partman', write('Run Partition Maintenance')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { parentTable, analyze } = PartmanRunMaintenanceSchema.parse(params);
 
@@ -170,6 +174,7 @@ function createPartmanShowPartitionsTool(adapter: PostgresAdapter): ToolDefiniti
         group: 'partman',
         inputSchema: PartmanShowPartitionsSchema,
         annotations: readOnly('Show Partman Partitions'),
+        icons: getToolIcons('partman', readOnly('Show Partman Partitions')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { parentTable, includeDefault, order } = PartmanShowPartitionsSchema.parse(params);
 
@@ -207,6 +212,7 @@ function createPartmanShowConfigTool(adapter: PostgresAdapter): ToolDefinition {
             parentTable: z.string().optional().describe('Parent table name (all configs if omitted)')
         }),
         annotations: readOnly('Show Partman Config'),
+        icons: getToolIcons('partman', readOnly('Show Partman Config')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = params as { parentTable?: string };
 
@@ -256,6 +262,7 @@ Data in default indicates partitions may be missing for certain time/value range
         group: 'partman',
         inputSchema: PartmanCheckDefaultSchema,
         annotations: readOnly('Check Partman Default'),
+        icons: getToolIcons('partman', readOnly('Check Partman Default')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { parentTable } = PartmanCheckDefaultSchema.parse(params);
 
@@ -311,6 +318,7 @@ Creates new partitions if needed for the data being moved.`,
         group: 'partman',
         inputSchema: PartmanPartitionDataSchema,
         annotations: write('Partition Data'),
+        icons: getToolIcons('partman', write('Partition Data')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { parentTable, batchSize, lockWaitSeconds } = PartmanPartitionDataSchema.parse(params);
 
@@ -366,6 +374,7 @@ Partitions older than the retention period will be dropped or detached during ma
         group: 'partman',
         inputSchema: PartmanRetentionSchema,
         annotations: write('Set Partition Retention'),
+        icons: getToolIcons('partman', write('Set Partition Retention')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { parentTable, retention, retentionKeepTable } = PartmanRetentionSchema.parse(params);
 
@@ -411,6 +420,7 @@ from child partitions to the parent (or a target table) and removing partition c
         group: 'partman',
         inputSchema: PartmanUndoPartitionSchema,
         annotations: destructive('Undo Partitioning'),
+        icons: getToolIcons('partman', destructive('Undo Partitioning')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { parentTable, targetTable, batchSize, keepTable } =
                 PartmanUndoPartitionSchema.parse(params);
@@ -458,6 +468,7 @@ stale maintenance, and retention configuration.`,
             parentTable: z.string().optional().describe('Specific parent table to analyze (all if omitted)')
         }),
         annotations: readOnly('Analyze Partition Health'),
+        icons: getToolIcons('partman', readOnly('Analyze Partition Health')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = params as { parentTable?: string };
 

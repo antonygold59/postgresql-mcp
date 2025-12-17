@@ -9,6 +9,7 @@ import type { PostgresAdapter } from '../PostgresAdapter.js';
 import type { ToolDefinition, RequestContext } from '../../../types/index.js';
 import { z } from 'zod';
 import { admin, destructive } from '../../../utils/annotations.js';
+import { getToolIcons } from '../../../utils/icons.js';
 import { VacuumSchema, AnalyzeSchema, ReindexSchema, TerminateBackendSchema, CancelBackendSchema } from '../types.js';
 
 /**
@@ -36,6 +37,7 @@ function createVacuumTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'admin',
         inputSchema: VacuumSchema,
         annotations: admin('Vacuum'),
+        icons: getToolIcons('admin', admin('Vacuum')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { table, schema, full, verbose } = VacuumSchema.parse(params);
             const fullClause = full ? 'FULL ' : '';
@@ -56,6 +58,7 @@ function createVacuumAnalyzeTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'admin',
         inputSchema: VacuumSchema,
         annotations: admin('Vacuum Analyze'),
+        icons: getToolIcons('admin', admin('Vacuum Analyze')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { table, schema, verbose } = VacuumSchema.parse(params);
             const verboseClause = verbose ? 'VERBOSE ' : '';
@@ -75,6 +78,7 @@ function createAnalyzeTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'admin',
         inputSchema: AnalyzeSchema,
         annotations: admin('Analyze'),
+        icons: getToolIcons('admin', admin('Analyze')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { table, schema, columns } = AnalyzeSchema.parse(params);
             const target = table ? (schema ? `"${schema}"."${table}"` : `"${table}"`) : '';
@@ -94,6 +98,7 @@ function createReindexTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'admin',
         inputSchema: ReindexSchema,
         annotations: admin('Reindex'),
+        icons: getToolIcons('admin', admin('Reindex')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { target, name, concurrently } = ReindexSchema.parse(params);
             const concurrentlyClause = concurrently ? 'CONCURRENTLY ' : '';
@@ -112,6 +117,7 @@ function createTerminateBackendTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'admin',
         inputSchema: TerminateBackendSchema,
         annotations: destructive('Terminate Backend'),
+        icons: getToolIcons('admin', destructive('Terminate Backend')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { pid } = TerminateBackendSchema.parse(params);
             const sql = `SELECT pg_terminate_backend($1)`;
@@ -129,6 +135,7 @@ function createCancelBackendTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'admin',
         inputSchema: CancelBackendSchema,
         annotations: admin('Cancel Backend'),
+        icons: getToolIcons('admin', admin('Cancel Backend')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { pid } = CancelBackendSchema.parse(params);
             const sql = `SELECT pg_cancel_backend($1)`;
@@ -146,6 +153,7 @@ function createReloadConfTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'admin',
         inputSchema: z.object({}),
         annotations: admin('Reload Configuration'),
+        icons: getToolIcons('admin', admin('Reload Configuration')),
         handler: async (_params: unknown, _context: RequestContext) => {
             const sql = `SELECT pg_reload_conf()`;
             const result = await adapter.executeQuery(sql);
@@ -165,6 +173,7 @@ function createSetConfigTool(adapter: PostgresAdapter): ToolDefinition {
             isLocal: z.boolean().optional().describe('Apply only to current transaction')
         }),
         annotations: admin('Set Configuration'),
+        icons: getToolIcons('admin', admin('Set Configuration')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { name: string; value: string; isLocal?: boolean });
             const local = parsed.isLocal ?? false;
@@ -184,6 +193,7 @@ function createResetStatsTool(adapter: PostgresAdapter): ToolDefinition {
             type: z.enum(['database', 'all']).optional()
         }),
         annotations: admin('Reset Statistics'),
+        icons: getToolIcons('admin', admin('Reset Statistics')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { type?: string });
             let sql: string;
@@ -209,6 +219,7 @@ function createClusterTool(adapter: PostgresAdapter): ToolDefinition {
             schema: z.string().optional()
         }),
         annotations: admin('Cluster Table'),
+        icons: getToolIcons('admin', admin('Cluster Table')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { table: string; index: string; schema?: string });
             const tableName = parsed.schema ? `"${parsed.schema}"."${parsed.table}"` : `"${parsed.table}"`;

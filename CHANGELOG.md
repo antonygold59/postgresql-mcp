@@ -34,6 +34,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `idempotentHint` — Identifies safe-to-retry operations (IF NOT EXISTS patterns)
   - `openWorldHint` — Set to `false` for all tools (no external system interaction)
   - Centralized annotation helpers: `readOnly()`, `write()`, `destructive()`, `admin()`
+- **Tool Icons** — All 194 tools now include MCP Tool Icons (SDK 1.25+)
+  - Per-tool icons based on behavior: warning icons for destructive, gear icons for admin
+  - 19 category-specific colored SVG icons (one per tool group)
+  - Embedded as data URIs for maximum portability — no external hosting required
+  - Centralized icon utility: `getToolIcons()` in `src/utils/icons.ts`
 - **21 resources** — migrated + new extension resources
   - `postgres://capabilities` — Server version, extensions, tool categories
   - `postgres://performance` — pg_stat_statements query metrics

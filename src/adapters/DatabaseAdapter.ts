@@ -176,14 +176,22 @@ export abstract class DatabaseAdapter {
         const inputSchema = tool.inputSchema as { shape?: Record<string, unknown> } | undefined;
         const zodShape = inputSchema?.shape ?? {};
 
+        // Build metadata object with annotations and icons
+        const metadata: Record<string, unknown> = {
+            ...(tool.annotations ?? {})
+        };
+        if (tool.icons && tool.icons.length > 0) {
+            metadata['icons'] = tool.icons;
+        }
+
         // eslint-disable-next-line @typescript-eslint/no-deprecated
         server.tool(
             tool.name,
             tool.description,
             // eslint-disable-next-line @typescript-eslint/no-deprecated
             zodShape as Parameters<typeof server.tool>[2],
-            // Pass annotations if present (SDK 1.25+)
-            tool.annotations ?? {},
+            // Pass annotations and icons (SDK 1.25+)
+            metadata,
             async (params: unknown) => {
                 const context = this.createContext();
                 const result = await tool.handler(params, context);

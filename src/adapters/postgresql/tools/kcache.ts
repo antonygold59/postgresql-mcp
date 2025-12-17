@@ -16,6 +16,7 @@ import type { PostgresAdapter } from '../PostgresAdapter.js';
 import type { ToolDefinition, RequestContext } from '../../../types/index.js';
 import { z } from 'zod';
 import { readOnly, write, destructive } from '../../../utils/annotations.js';
+import { getToolIcons } from '../../../utils/icons.js';
 import {
     KcacheQueryStatsSchema,
     KcacheDatabaseStatsSchema,
@@ -48,6 +49,7 @@ Requires pg_stat_statements to be installed first. Both extensions must be in sh
         group: 'kcache',
         inputSchema: z.object({}),
         annotations: write('Create Kcache Extension'),
+        icons: getToolIcons('kcache', write('Create Kcache Extension')),
         handler: async (_params: unknown, _context: RequestContext) => {
             const statementsCheck = await adapter.executeQuery(`
                 SELECT EXISTS(
@@ -85,6 +87,7 @@ Joins pg_stat_statements with pg_stat_kcache to show what SQL did AND what syste
         group: 'kcache',
         inputSchema: KcacheQueryStatsSchema,
         annotations: readOnly('Kcache Query Stats'),
+        icons: getToolIcons('kcache', readOnly('Kcache Query Stats')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { limit, orderBy, minCalls } = KcacheQueryStatsSchema.parse(params);
 
@@ -159,6 +162,7 @@ in user CPU (application code) vs system CPU (kernel operations).`,
             limit: z.number().optional().describe('Number of top queries to return (default: 10)')
         }),
         annotations: readOnly('Kcache Top CPU'),
+        icons: getToolIcons('kcache', readOnly('Kcache Top CPU')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = params as { limit?: number };
             const limitVal = parsed.limit ?? 10;
@@ -217,6 +221,7 @@ which represent actual disk access (not just shared buffer hits).`,
             limit: z.number().optional().describe('Number of top queries to return (default: 10)')
         }),
         annotations: readOnly('Kcache Top IO'),
+        icons: getToolIcons('kcache', readOnly('Kcache Top IO')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = params as { type?: 'reads' | 'writes' | 'both'; limit?: number };
             const ioType = parsed.type ?? 'both';
@@ -273,6 +278,7 @@ Shows total CPU time, I/O, and page faults across all queries.`,
         group: 'kcache',
         inputSchema: KcacheDatabaseStatsSchema,
         annotations: readOnly('Kcache Database Stats'),
+        icons: getToolIcons('kcache', readOnly('Kcache Database Stats')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { database } = KcacheDatabaseStatsSchema.parse(params);
 
@@ -340,6 +346,7 @@ Helps identify the root cause of performance issues - is the query computation-h
         group: 'kcache',
         inputSchema: KcacheResourceAnalysisSchema,
         annotations: readOnly('Kcache Resource Analysis'),
+        icons: getToolIcons('kcache', readOnly('Kcache Resource Analysis')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { queryId, threshold } = KcacheResourceAnalysisSchema.parse(params);
             const thresholdVal = threshold ?? 0.5;
@@ -448,6 +455,7 @@ Note: This also resets pg_stat_statements statistics.`,
         group: 'kcache',
         inputSchema: z.object({}),
         annotations: destructive('Reset Kcache Stats'),
+        icons: getToolIcons('kcache', destructive('Reset Kcache Stats')),
         handler: async (_params: unknown, _context: RequestContext) => {
             await adapter.executeQuery('SELECT pg_stat_kcache_reset()');
             return {

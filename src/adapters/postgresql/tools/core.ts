@@ -9,6 +9,7 @@ import type { PostgresAdapter } from '../PostgresAdapter.js';
 import type { ToolDefinition, RequestContext } from '../../../types/index.js';
 import { z } from 'zod';
 import { readOnly, write, destructive } from '../../../utils/annotations.js';
+import { getToolIcons } from '../../../utils/icons.js';
 import {
     ReadQuerySchema,
     WriteQuerySchema,
@@ -79,6 +80,7 @@ function createReadQueryTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'core',
         inputSchema: ReadQuerySchema,
         annotations: readOnly('Read Query'),
+        icons: getToolIcons('core', readOnly('Read Query')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { sql, params: queryParams } = ReadQuerySchema.parse(params);
             const result = await adapter.executeReadQuery(sql, queryParams);
@@ -101,6 +103,7 @@ function createWriteQueryTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'core',
         inputSchema: WriteQuerySchema,
         annotations: write('Write Query'),
+        icons: getToolIcons('core', write('Write Query')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { sql, params: queryParams } = WriteQuerySchema.parse(params);
             const result = await adapter.executeWriteQuery(sql, queryParams);
@@ -123,6 +126,7 @@ function createListTablesTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'core',
         inputSchema: ListTablesSchema,
         annotations: readOnly('List Tables'),
+        icons: getToolIcons('core', readOnly('List Tables')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { schema } = ListTablesSchema.parse(params);
             let tables = await adapter.listTables();
@@ -149,6 +153,7 @@ function createDescribeTableTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'core',
         inputSchema: DescribeTableSchema,
         annotations: readOnly('Describe Table'),
+        icons: getToolIcons('core', readOnly('Describe Table')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { table, schema } = DescribeTableSchema.parse(params);
             return adapter.describeTable(table, schema);
@@ -166,6 +171,7 @@ function createCreateTableTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'core',
         inputSchema: CreateTableSchema,
         annotations: write('Create Table'),
+        icons: getToolIcons('core', write('Create Table')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { name, schema, columns, ifNotExists } = CreateTableSchema.parse(params);
 
@@ -224,6 +230,7 @@ function createDropTableTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'core',
         inputSchema: DropTableSchema,
         annotations: destructive('Drop Table'),
+        icons: getToolIcons('core', destructive('Drop Table')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { table, schema, ifExists, cascade } = DropTableSchema.parse(params);
 
@@ -253,6 +260,7 @@ function createGetIndexesTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'core',
         inputSchema: GetIndexesSchema,
         annotations: readOnly('Get Indexes'),
+        icons: getToolIcons('core', readOnly('Get Indexes')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { table, schema } = GetIndexesSchema.parse(params);
             const indexes = await adapter.getTableIndexes(table, schema);
@@ -271,6 +279,7 @@ function createCreateIndexTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'core',
         inputSchema: CreateIndexSchema,
         annotations: write('Create Index'),
+        icons: getToolIcons('core', write('Create Index')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { name, table, schema, columns, unique, type, where, concurrently } =
                 CreateIndexSchema.parse(params);
@@ -307,6 +316,7 @@ function createListObjectsTool(adapter: PostgresAdapter): ToolDefinition {
         description: 'List all database objects (tables, views, functions, sequences, indexes, triggers) with metadata.',
         group: 'core',
         annotations: readOnly('List Objects'),
+        icons: getToolIcons('core', readOnly('List Objects')),
         inputSchema: ListObjectsSchema,
         handler: async (params: unknown, _context: RequestContext) => {
             const { schema, types } = ListObjectsSchema.parse(params);
@@ -438,6 +448,7 @@ function createObjectDetailsTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'core',
         inputSchema: ObjectDetailsSchema,
         annotations: readOnly('Object Details'),
+        icons: getToolIcons('core', readOnly('Object Details')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { name, schema, type } = ObjectDetailsSchema.parse(params);
             const schemaName = schema ?? 'public';
@@ -550,6 +561,7 @@ function createAnalyzeDbHealthTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'core',
         inputSchema: AnalyzeDbHealthSchema,
         annotations: readOnly('Analyze Database Health'),
+        icons: getToolIcons('core', readOnly('Analyze Database Health')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { includeIndexes, includeVacuum, includeConnections } = AnalyzeDbHealthSchema.parse(params);
 
@@ -686,6 +698,7 @@ function createAnalyzeWorkloadIndexesTool(adapter: PostgresAdapter): ToolDefinit
         group: 'core',
         inputSchema: AnalyzeWorkloadIndexesSchema,
         annotations: readOnly('Analyze Workload Indexes'),
+        icons: getToolIcons('core', readOnly('Analyze Workload Indexes')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { topQueries, minCalls } = AnalyzeWorkloadIndexesSchema.parse(params);
             const limit = topQueries ?? 20;
@@ -781,6 +794,7 @@ function createAnalyzeQueryIndexesTool(adapter: PostgresAdapter): ToolDefinition
         group: 'core',
         inputSchema: AnalyzeQueryIndexesSchema,
         annotations: readOnly('Analyze Query Indexes'),
+        icons: getToolIcons('core', readOnly('Analyze Query Indexes')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { sql, params: queryParams } = AnalyzeQueryIndexesSchema.parse(params);
 

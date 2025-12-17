@@ -9,6 +9,7 @@ import type { PostgresAdapter } from '../PostgresAdapter.js';
 import type { ToolDefinition, RequestContext } from '../../../types/index.js';
 import { z } from 'zod';
 import { readOnly, write } from '../../../utils/annotations.js';
+import { getToolIcons } from '../../../utils/icons.js';
 import { DatabaseSizeSchema, TableSizesSchema, ShowSettingsSchema } from '../types.js';
 
 /**
@@ -37,6 +38,7 @@ function createDatabaseSizeTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'monitoring',
         inputSchema: DatabaseSizeSchema,
         annotations: readOnly('Database Size'),
+        icons: getToolIcons('monitoring', readOnly('Database Size')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { database } = DatabaseSizeSchema.parse(params);
             const sql = database
@@ -55,6 +57,7 @@ function createTableSizesTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'monitoring',
         inputSchema: TableSizesSchema,
         annotations: readOnly('Table Sizes'),
+        icons: getToolIcons('monitoring', readOnly('Table Sizes')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { schema, limit } = TableSizesSchema.parse(params);
             const schemaClause = schema ? `AND n.nspname = '${schema}'` : '';
@@ -85,6 +88,7 @@ function createConnectionStatsTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'monitoring',
         inputSchema: z.object({}),
         annotations: readOnly('Connection Stats'),
+        icons: getToolIcons('monitoring', readOnly('Connection Stats')),
         handler: async (_params: unknown, _context: RequestContext) => {
             const sql = `SELECT datname, state, count(*) as connections
                         FROM pg_stat_activity
@@ -117,6 +121,7 @@ function createReplicationStatusTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'monitoring',
         inputSchema: z.object({}),
         annotations: readOnly('Replication Status'),
+        icons: getToolIcons('monitoring', readOnly('Replication Status')),
         handler: async (_params: unknown, _context: RequestContext) => {
             const recoveryResult = await adapter.executeQuery(`SELECT pg_is_in_recovery() as is_replica`);
             const isReplica = recoveryResult.rows?.[0]?.['is_replica'];
@@ -146,6 +151,7 @@ function createServerVersionTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'monitoring',
         inputSchema: z.object({}),
         annotations: readOnly('Server Version'),
+        icons: getToolIcons('monitoring', readOnly('Server Version')),
         handler: async (_params: unknown, _context: RequestContext) => {
             const sql = `SELECT version() as full_version,
                         current_setting('server_version') as version,
@@ -163,6 +169,7 @@ function createShowSettingsTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'monitoring',
         inputSchema: ShowSettingsSchema,
         annotations: readOnly('Show Settings'),
+        icons: getToolIcons('monitoring', readOnly('Show Settings')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { pattern } = ShowSettingsSchema.parse(params);
             const whereClause = pattern ? `WHERE name LIKE $1` : '';
@@ -185,6 +192,7 @@ function createUptimeTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'monitoring',
         inputSchema: z.object({}),
         annotations: readOnly('Server Uptime'),
+        icons: getToolIcons('monitoring', readOnly('Server Uptime')),
         handler: async (_params: unknown, _context: RequestContext) => {
             const sql = `SELECT pg_postmaster_start_time() as start_time,
                         now() - pg_postmaster_start_time() as uptime`;
@@ -201,6 +209,7 @@ function createRecoveryStatusTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'monitoring',
         inputSchema: z.object({}),
         annotations: readOnly('Recovery Status'),
+        icons: getToolIcons('monitoring', readOnly('Recovery Status')),
         handler: async (_params: unknown, _context: RequestContext) => {
             const sql = `SELECT pg_is_in_recovery() as in_recovery,
                         CASE WHEN pg_is_in_recovery() 
@@ -225,6 +234,7 @@ function createCapacityPlanningTool(adapter: PostgresAdapter): ToolDefinition {
             projectionDays: z.number().optional().describe('Days to project growth (default: 90)')
         }),
         annotations: readOnly('Capacity Planning'),
+        icons: getToolIcons('monitoring', readOnly('Capacity Planning')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { projectionDays?: number });
             const projectionDays = parsed.projectionDays ?? 90;
@@ -305,6 +315,7 @@ function createResourceUsageAnalyzeTool(adapter: PostgresAdapter): ToolDefinitio
         group: 'monitoring',
         inputSchema: z.object({}),
         annotations: readOnly('Resource Usage Analysis'),
+        icons: getToolIcons('monitoring', readOnly('Resource Usage Analysis')),
         handler: async (_params: unknown, _context: RequestContext) => {
             const [bgWriter, checkpoints, connections, buffers, activity] = await Promise.all([
                 adapter.executeQuery(`
@@ -401,6 +412,7 @@ function createAlertThresholdSetTool(_adapter: PostgresAdapter): ToolDefinition 
             ]).optional().describe('Specific metric to get thresholds for, or all if not specified')
         }),
         annotations: write('Set Alert Threshold'),
+        icons: getToolIcons('monitoring', write('Set Alert Threshold')),
         // eslint-disable-next-line @typescript-eslint/require-await
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { metric?: string });

@@ -9,6 +9,7 @@ import type { PostgresAdapter } from '../PostgresAdapter.js';
 import type { ToolDefinition, RequestContext } from '../../../types/index.js';
 import { z } from 'zod';
 import { readOnly, write } from '../../../utils/annotations.js';
+import { getToolIcons } from '../../../utils/icons.js';
 import {
     JsonbExtractSchema,
     JsonbSetSchema,
@@ -51,6 +52,7 @@ function createJsonbExtractTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'jsonb',
         inputSchema: JsonbExtractSchema,
         annotations: readOnly('JSONB Extract'),
+        icons: getToolIcons('jsonb', readOnly('JSONB Extract')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { table, column, path, where } = JsonbExtractSchema.parse(params);
             const whereClause = where ? ` WHERE ${where}` : '';
@@ -71,6 +73,7 @@ function createJsonbSetTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'jsonb',
         inputSchema: JsonbSetSchema,
         annotations: write('JSONB Set'),
+        icons: getToolIcons('jsonb', write('JSONB Set')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { table, column, path, value, where, createMissing } = JsonbSetSchema.parse(params);
             const createFlag = createMissing !== false;
@@ -95,6 +98,7 @@ function createJsonbInsertTool(adapter: PostgresAdapter): ToolDefinition {
             insertAfter: z.boolean().optional()
         }),
         annotations: write('JSONB Insert'),
+        icons: getToolIcons('jsonb', write('JSONB Insert')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { table: string; column: string; path: string[]; value: unknown; where: string; insertAfter?: boolean });
             const sql = `UPDATE "${parsed.table}" SET "${parsed.column}" = jsonb_insert("${parsed.column}", $1, $2::jsonb, $3) WHERE ${parsed.where}`;
@@ -116,6 +120,7 @@ function createJsonbDeleteTool(adapter: PostgresAdapter): ToolDefinition {
             where: z.string()
         }),
         annotations: write('JSONB Delete'),
+        icons: getToolIcons('jsonb', write('JSONB Delete')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { table: string; column: string; path: string | string[]; where: string });
             const pathExpr = Array.isArray(parsed.path) ? `#- $1` : `- $1`;
@@ -133,6 +138,7 @@ function createJsonbContainsTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'jsonb',
         inputSchema: JsonbContainsSchema,
         annotations: readOnly('JSONB Contains'),
+        icons: getToolIcons('jsonb', readOnly('JSONB Contains')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { table, column, value, select } = JsonbContainsSchema.parse(params);
             const selectCols = select !== undefined && select.length > 0 ? select.map(c => `"${c}"`).join(', ') : '*';
@@ -150,6 +156,7 @@ function createJsonbPathQueryTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'jsonb',
         inputSchema: JsonbPathQuerySchema,
         annotations: readOnly('JSONB Path Query'),
+        icons: getToolIcons('jsonb', readOnly('JSONB Path Query')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { table, column, path, vars, where } = JsonbPathQuerySchema.parse(params);
             const whereClause = where ? ` WHERE ${where}` : '';
@@ -173,6 +180,7 @@ function createJsonbAggTool(adapter: PostgresAdapter): ToolDefinition {
             groupBy: z.string().optional()
         }),
         annotations: readOnly('JSONB Aggregate'),
+        icons: getToolIcons('jsonb', readOnly('JSONB Aggregate')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { table: string; select?: string[]; where?: string; groupBy?: string });
             const selectExpr = parsed.select !== undefined && parsed.select.length > 0
@@ -196,6 +204,7 @@ function createJsonbObjectTool(adapter: PostgresAdapter): ToolDefinition {
             pairs: z.record(z.string(), z.unknown())
         }),
         annotations: readOnly('JSONB Object'),
+        icons: getToolIcons('jsonb', readOnly('JSONB Object')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { pairs: Record<string, unknown> });
             const entries = Object.entries(parsed.pairs);
@@ -217,6 +226,7 @@ function createJsonbArrayTool(adapter: PostgresAdapter): ToolDefinition {
             values: z.array(z.unknown())
         }),
         annotations: readOnly('JSONB Array'),
+        icons: getToolIcons('jsonb', readOnly('JSONB Array')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { values: unknown[] });
             const placeholders = parsed.values.map((_, i) => `$${String(i + 1)}::jsonb`).join(', ');
@@ -238,6 +248,7 @@ function createJsonbKeysTool(adapter: PostgresAdapter): ToolDefinition {
             where: z.string().optional()
         }),
         annotations: readOnly('JSONB Keys'),
+        icons: getToolIcons('jsonb', readOnly('JSONB Keys')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { table: string; column: string; where?: string });
             const whereClause = parsed.where ? ` WHERE ${parsed.where}` : '';
@@ -259,6 +270,7 @@ function createJsonbStripNullsTool(adapter: PostgresAdapter): ToolDefinition {
             where: z.string()
         }),
         annotations: write('JSONB Strip Nulls'),
+        icons: getToolIcons('jsonb', write('JSONB Strip Nulls')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { table: string; column: string; where: string });
             const sql = `UPDATE "${parsed.table}" SET "${parsed.column}" = jsonb_strip_nulls("${parsed.column}") WHERE ${parsed.where}`;
@@ -280,6 +292,7 @@ function createJsonbTypeofTool(adapter: PostgresAdapter): ToolDefinition {
             where: z.string().optional()
         }),
         annotations: readOnly('JSONB Typeof'),
+        icons: getToolIcons('jsonb', readOnly('JSONB Typeof')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { table: string; column: string; path?: string[]; where?: string });
             const whereClause = parsed.where ? ` WHERE ${parsed.where}` : '';
@@ -309,6 +322,7 @@ function createJsonbValidatePathTool(adapter: PostgresAdapter): ToolDefinition {
             testValue: z.unknown().optional().describe('Optional JSONB value to test against')
         }),
         annotations: readOnly('JSONB Validate Path'),
+        icons: getToolIcons('jsonb', readOnly('JSONB Validate Path')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { path: string; testValue?: unknown });
 
@@ -354,6 +368,7 @@ function createJsonbMergeTool(adapter: PostgresAdapter): ToolDefinition {
             deep: z.boolean().optional().describe('Deep merge objects (default: true)')
         }),
         annotations: readOnly('JSONB Merge'),
+        icons: getToolIcons('jsonb', readOnly('JSONB Merge')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { base: unknown; overlay: unknown; deep?: boolean });
             const useDeep = parsed.deep !== false;
@@ -397,6 +412,7 @@ function createJsonbNormalizeTool(adapter: PostgresAdapter): ToolDefinition {
             where: z.string().optional()
         }),
         annotations: readOnly('JSONB Normalize'),
+        icons: getToolIcons('jsonb', readOnly('JSONB Normalize')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { table: string; column: string; mode?: string; where?: string });
             const whereClause = parsed.where ? ` WHERE ${parsed.where}` : '';
@@ -430,6 +446,7 @@ function createJsonbDiffTool(adapter: PostgresAdapter): ToolDefinition {
             doc2: z.unknown().describe('Second JSONB document')
         }),
         annotations: readOnly('JSONB Diff'),
+        icons: getToolIcons('jsonb', readOnly('JSONB Diff')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { doc1: unknown; doc2: unknown });
 
@@ -478,6 +495,7 @@ function createJsonbIndexSuggestTool(adapter: PostgresAdapter): ToolDefinition {
             sampleSize: z.number().optional().describe('Sample rows to analyze')
         }),
         annotations: readOnly('JSONB Index Suggest'),
+        icons: getToolIcons('jsonb', readOnly('JSONB Index Suggest')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { table: string; column: string; sampleSize?: number });
             const sample = parsed.sampleSize ?? 1000;
@@ -541,6 +559,7 @@ function createJsonbSecurityScanTool(adapter: PostgresAdapter): ToolDefinition {
             sampleSize: z.number().optional().describe('Sample rows to scan')
         }),
         annotations: readOnly('JSONB Security Scan'),
+        icons: getToolIcons('jsonb', readOnly('JSONB Security Scan')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { table: string; column: string; sampleSize?: number });
             const sample = parsed.sampleSize ?? 100;
@@ -597,6 +616,7 @@ function createJsonbStatsTool(adapter: PostgresAdapter): ToolDefinition {
             sampleSize: z.number().optional().describe('Sample rows to analyze')
         }),
         annotations: readOnly('JSONB Stats'),
+        icons: getToolIcons('jsonb', readOnly('JSONB Stats')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { table: string; column: string; sampleSize?: number });
             const sample = parsed.sampleSize ?? 1000;

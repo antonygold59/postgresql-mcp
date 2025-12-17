@@ -14,6 +14,7 @@ import type { PostgresAdapter } from '../PostgresAdapter.js';
 import type { ToolDefinition, RequestContext } from '../../../types/index.js';
 import { z } from 'zod';
 import { readOnly, write } from '../../../utils/annotations.js';
+import { getToolIcons } from '../../../utils/icons.js';
 import {
     CitextConvertColumnSchema,
     CitextListColumnsSchema,
@@ -46,6 +47,7 @@ citext is ideal for emails, usernames, and other identifiers where case shouldn'
         group: 'citext',
         inputSchema: z.object({}),
         annotations: write('Create Citext Extension'),
+        icons: getToolIcons('citext', write('Create Citext Extension')),
         handler: async (_params: unknown, _context: RequestContext) => {
             await adapter.executeQuery('CREATE EXTENSION IF NOT EXISTS citext');
             return {
@@ -68,6 +70,7 @@ This is useful for retrofitting case-insensitivity to existing columns like emai
         group: 'citext',
         inputSchema: CitextConvertColumnSchema,
         annotations: write('Convert to Citext'),
+        icons: getToolIcons('citext', write('Convert to Citext')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { table, column, schema } = CitextConvertColumnSchema.parse(params);
             const schemaName = schema ?? 'public';
@@ -138,6 +141,7 @@ Useful for auditing case-insensitive columns.`,
         group: 'citext',
         inputSchema: CitextListColumnsSchema,
         annotations: readOnly('List Citext Columns'),
+        icons: getToolIcons('citext', readOnly('List Citext Columns')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { schema } = CitextListColumnsSchema.parse(params);
 
@@ -185,6 +189,7 @@ Looks for common patterns like email, username, name, slug, etc.`,
         group: 'citext',
         inputSchema: CitextAnalyzeCandidatesSchema,
         annotations: readOnly('Analyze Citext Candidates'),
+        icons: getToolIcons('citext', readOnly('Analyze Citext Candidates')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { patterns, schema } = CitextAnalyzeCandidatesSchema.parse(params);
 
@@ -274,6 +279,7 @@ Useful for testing citext behavior before converting columns.`,
             value2: z.string().describe('Second value to compare')
         }),
         annotations: readOnly('Compare Citext Values'),
+        icons: getToolIcons('citext', readOnly('Compare Citext Values')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { value1, value2 } = (params as { value1: string; value2: string });
 
@@ -334,6 +340,7 @@ Provides schema design recommendations based on column names and existing data p
         group: 'citext',
         inputSchema: CitextSchemaAdvisorSchema,
         annotations: readOnly('Citext Schema Advisor'),
+        icons: getToolIcons('citext', readOnly('Citext Schema Advisor')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { table, schema } = CitextSchemaAdvisorSchema.parse(params);
             const schemaName = schema ?? 'public';

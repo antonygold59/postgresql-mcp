@@ -9,6 +9,7 @@ import type { PostgresAdapter } from '../PostgresAdapter.js';
 import type { ToolDefinition, RequestContext } from '../../../types/index.js';
 import { z } from 'zod';
 import { readOnly } from '../../../utils/annotations.js';
+import { getToolIcons } from '../../../utils/icons.js';
 
 // =============================================================================
 // Statistics Schemas
@@ -114,6 +115,7 @@ function createStatsDescriptiveTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'stats',
         inputSchema: StatsDescriptiveSchema,
         annotations: readOnly('Descriptive Statistics'),
+        icons: getToolIcons('stats', readOnly('Descriptive Statistics')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { table, column, schema, where } = StatsDescriptiveSchema.parse(params);
 
@@ -176,6 +178,7 @@ function createStatsPercentilesTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'stats',
         inputSchema: StatsPercentilesSchema,
         annotations: readOnly('Percentiles'),
+        icons: getToolIcons('stats', readOnly('Percentiles')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { table, column, percentiles, schema, where } = StatsPercentilesSchema.parse(params);
 
@@ -222,6 +225,7 @@ function createStatsCorrelationTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'stats',
         inputSchema: StatsCorrelationSchema,
         annotations: readOnly('Correlation Analysis'),
+        icons: getToolIcons('stats', readOnly('Correlation Analysis')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { table, column1, column2, schema, where } = StatsCorrelationSchema.parse(params);
 
@@ -284,6 +288,7 @@ function createStatsRegressionTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'stats',
         inputSchema: StatsRegressionSchema,
         annotations: readOnly('Linear Regression'),
+        icons: getToolIcons('stats', readOnly('Linear Regression')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { table, xColumn, yColumn, schema, where } = StatsRegressionSchema.parse(params);
 
@@ -355,6 +360,7 @@ function createStatsTimeSeriesTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'stats',
         inputSchema: StatsTimeSeriesSchema,
         annotations: readOnly('Time Series Analysis'),
+        icons: getToolIcons('stats', readOnly('Time Series Analysis')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { table, valueColumn, timeColumn, interval, aggregation, schema, where, limit } =
                 StatsTimeSeriesSchema.parse(params);
@@ -404,6 +410,7 @@ function createStatsDistributionTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'stats',
         inputSchema: StatsDistributionSchema,
         annotations: readOnly('Distribution Analysis'),
+        icons: getToolIcons('stats', readOnly('Distribution Analysis')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { table, column, buckets, schema, where } = StatsDistributionSchema.parse(params);
 
@@ -466,6 +473,7 @@ function createStatsHypothesisTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'stats',
         inputSchema: StatsHypothesisSchema,
         annotations: readOnly('Hypothesis Testing'),
+        icons: getToolIcons('stats', readOnly('Hypothesis Testing')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { table, column, testType, hypothesizedMean, schema, where } =
                 StatsHypothesisSchema.parse(params);
@@ -533,6 +541,7 @@ function createStatsSamplingTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'stats',
         inputSchema: StatsSamplingSchema,
         annotations: readOnly('Random Sampling'),
+        icons: getToolIcons('stats', readOnly('Random Sampling')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { table, method, sampleSize, percentage, schema, select, where } =
                 StatsSamplingSchema.parse(params);

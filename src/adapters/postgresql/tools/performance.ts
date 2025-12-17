@@ -9,6 +9,7 @@ import type { PostgresAdapter } from '../PostgresAdapter.js';
 import type { ToolDefinition, RequestContext } from '../../../types/index.js';
 import { z } from 'zod';
 import { readOnly } from '../../../utils/annotations.js';
+import { getToolIcons } from '../../../utils/icons.js';
 import { ExplainSchema, IndexStatsSchema, TableStatsSchema } from '../types.js';
 
 /**
@@ -42,6 +43,7 @@ function createExplainTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'performance',
         inputSchema: ExplainSchema,
         annotations: readOnly('Explain Query'),
+        icons: getToolIcons('performance', readOnly('Explain Query')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { sql, format } = ExplainSchema.parse(params);
             const fmt = format ?? 'text';
@@ -63,6 +65,7 @@ function createExplainAnalyzeTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'performance',
         inputSchema: ExplainSchema,
         annotations: readOnly('Explain Analyze'),
+        icons: getToolIcons('performance', readOnly('Explain Analyze')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { sql, format } = ExplainSchema.parse(params);
             const fmt = format ?? 'text';
@@ -84,6 +87,7 @@ function createExplainBuffersTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'performance',
         inputSchema: ExplainSchema,
         annotations: readOnly('Explain Buffers'),
+        icons: getToolIcons('performance', readOnly('Explain Buffers')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { sql, format } = ExplainSchema.parse(params);
             const fmt = format ?? 'json';
@@ -105,6 +109,7 @@ function createIndexStatsTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'performance',
         inputSchema: IndexStatsSchema,
         annotations: readOnly('Index Stats'),
+        icons: getToolIcons('performance', readOnly('Index Stats')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { table, schema } = IndexStatsSchema.parse(params);
             let whereClause = "schemaname NOT IN ('pg_catalog', 'information_schema')";
@@ -131,6 +136,7 @@ function createTableStatsTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'performance',
         inputSchema: TableStatsSchema,
         annotations: readOnly('Table Stats'),
+        icons: getToolIcons('performance', readOnly('Table Stats')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { table, schema } = TableStatsSchema.parse(params);
             let whereClause = "schemaname NOT IN ('pg_catalog', 'information_schema')";
@@ -162,6 +168,7 @@ function createStatStatementsTool(adapter: PostgresAdapter): ToolDefinition {
             orderBy: z.enum(['total_time', 'calls', 'mean_time', 'rows']).optional()
         }),
         annotations: readOnly('Query Statistics'),
+        icons: getToolIcons('performance', readOnly('Query Statistics')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { limit?: number; orderBy?: string });
             const limit = parsed.limit ?? 20;
@@ -189,6 +196,7 @@ function createStatActivityTool(adapter: PostgresAdapter): ToolDefinition {
             includeIdle: z.boolean().optional()
         }),
         annotations: readOnly('Activity Stats'),
+        icons: getToolIcons('performance', readOnly('Activity Stats')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { includeIdle?: boolean });
             const idleClause = parsed.includeIdle ? '' : "AND state != 'idle'";
@@ -216,6 +224,7 @@ function createLocksTool(adapter: PostgresAdapter): ToolDefinition {
             showBlocked: z.boolean().optional()
         }),
         annotations: readOnly('Lock Information'),
+        icons: getToolIcons('performance', readOnly('Lock Information')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { showBlocked?: boolean });
 
@@ -254,6 +263,7 @@ function createBloatCheckTool(adapter: PostgresAdapter): ToolDefinition {
             schema: z.string().optional()
         }),
         annotations: readOnly('Bloat Check'),
+        icons: getToolIcons('performance', readOnly('Bloat Check')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { schema?: string });
             const schemaClause = parsed.schema ? `AND schemaname = '${parsed.schema}'` : '';
@@ -280,6 +290,7 @@ function createCacheHitRatioTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'performance',
         inputSchema: z.object({}),
         annotations: readOnly('Cache Hit Ratio'),
+        icons: getToolIcons('performance', readOnly('Cache Hit Ratio')),
         handler: async (_params: unknown, _context: RequestContext) => {
             const sql = `SELECT 
                         sum(heap_blks_read) as heap_read,
@@ -304,6 +315,7 @@ function createSeqScanTablesTool(adapter: PostgresAdapter): ToolDefinition {
             minScans: z.number().optional()
         }),
         annotations: readOnly('Sequential Scan Tables'),
+        icons: getToolIcons('performance', readOnly('Sequential Scan Tables')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { minScans?: number });
             const minScans = parsed.minScans ?? 100;
@@ -331,6 +343,7 @@ function createIndexRecommendationsTool(adapter: PostgresAdapter): ToolDefinitio
             table: z.string().optional()
         }),
         annotations: readOnly('Index Recommendations'),
+        icons: getToolIcons('performance', readOnly('Index Recommendations')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { table?: string });
             const tableClause = parsed.table ? `AND relname = '${parsed.table}'` : '';
@@ -369,6 +382,7 @@ function createQueryPlanCompareTool(adapter: PostgresAdapter): ToolDefinition {
             analyze: z.boolean().optional().describe('Run EXPLAIN ANALYZE (executes queries)')
         }),
         annotations: readOnly('Query Plan Compare'),
+        icons: getToolIcons('performance', readOnly('Query Plan Compare')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { query1: string; query2: string; analyze?: boolean });
             const explainType = parsed.analyze ? 'EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON)' : 'EXPLAIN (FORMAT JSON)';
@@ -437,6 +451,7 @@ function createPerformanceBaselineTool(adapter: PostgresAdapter): ToolDefinition
             name: z.string().optional().describe('Baseline name for reference')
         }),
         annotations: readOnly('Performance Baseline'),
+        icons: getToolIcons('performance', readOnly('Performance Baseline')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { name?: string });
             const baselineName = parsed.name ?? `baseline_${new Date().toISOString()}`;
@@ -502,6 +517,7 @@ function createConnectionPoolOptimizeTool(adapter: PostgresAdapter): ToolDefinit
         group: 'performance',
         inputSchema: z.object({}),
         annotations: readOnly('Connection Pool Optimize'),
+        icons: getToolIcons('performance', readOnly('Connection Pool Optimize')),
         handler: async (_params: unknown, _context: RequestContext) => {
             const [connStats, settings, waitEvents] = await Promise.all([
                 adapter.executeQuery(`
@@ -583,6 +599,7 @@ function createPartitionStrategySuggestTool(adapter: PostgresAdapter): ToolDefin
             schema: z.string().optional().describe('Schema name')
         }),
         annotations: readOnly('Partition Strategy Suggest'),
+        icons: getToolIcons('performance', readOnly('Partition Strategy Suggest')),
         handler: async (params: unknown, _context: RequestContext) => {
             const parsed = (params as { table: string; schema?: string });
             const schemaName = parsed.schema ?? 'public';

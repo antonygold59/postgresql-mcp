@@ -7,6 +7,7 @@ import type { PostgresAdapter } from '../PostgresAdapter.js';
 import type { ToolDefinition, RequestContext } from '../../../types/index.js';
 import { z } from 'zod';
 import { readOnly, write } from '../../../utils/annotations.js';
+import { getToolIcons } from '../../../utils/icons.js';
 import {
     LtreeQuerySchema, LtreeSubpathSchema, LtreeLcaSchema, LtreeMatchSchema,
     LtreeListColumnsSchema, LtreeConvertColumnSchema, LtreeIndexSchema
@@ -28,6 +29,7 @@ function createLtreeExtensionTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'ltree',
         inputSchema: z.object({}),
         annotations: write('Create Ltree Extension'),
+        icons: getToolIcons('ltree', write('Create Ltree Extension')),
         handler: async (_params: unknown, _context: RequestContext) => {
             await adapter.executeQuery('CREATE EXTENSION IF NOT EXISTS ltree');
             return { success: true, message: 'ltree extension enabled' };
@@ -42,6 +44,7 @@ function createLtreeQueryTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'ltree',
         inputSchema: LtreeQuerySchema,
         annotations: readOnly('Query Ltree'),
+        icons: getToolIcons('ltree', readOnly('Query Ltree')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { table, column, path, mode, schema, limit } = LtreeQuerySchema.parse(params);
             const schemaName = schema ?? 'public';
@@ -68,6 +71,7 @@ function createLtreeSubpathTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'ltree',
         inputSchema: LtreeSubpathSchema,
         annotations: readOnly('Ltree Subpath'),
+        icons: getToolIcons('ltree', readOnly('Ltree Subpath')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { path, offset, length } = LtreeSubpathSchema.parse(params);
             const sql = length !== undefined
@@ -88,6 +92,7 @@ function createLtreeLcaTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'ltree',
         inputSchema: LtreeLcaSchema,
         annotations: readOnly('Ltree LCA'),
+        icons: getToolIcons('ltree', readOnly('Ltree LCA')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { paths } = LtreeLcaSchema.parse(params);
             const arrayLiteral = paths.map(p => `'${p.replace(/'/g, "''")}'::ltree`).join(', ');
@@ -106,6 +111,7 @@ function createLtreeMatchTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'ltree',
         inputSchema: LtreeMatchSchema,
         annotations: readOnly('Ltree Match'),
+        icons: getToolIcons('ltree', readOnly('Ltree Match')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { table, column, pattern, schema, limit } = LtreeMatchSchema.parse(params);
             const schemaName = schema ?? 'public';
@@ -125,6 +131,7 @@ function createLtreeListColumnsTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'ltree',
         inputSchema: LtreeListColumnsSchema,
         annotations: readOnly('List Ltree Columns'),
+        icons: getToolIcons('ltree', readOnly('List Ltree Columns')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { schema } = LtreeListColumnsSchema.parse(params);
             const conditions: string[] = ["udt_name = 'ltree'", "table_schema NOT IN ('pg_catalog', 'information_schema')"];
@@ -144,6 +151,7 @@ function createLtreeConvertColumnTool(adapter: PostgresAdapter): ToolDefinition 
         group: 'ltree',
         inputSchema: LtreeConvertColumnSchema,
         annotations: write('Convert to Ltree'),
+        icons: getToolIcons('ltree', write('Convert to Ltree')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { table, column, schema } = LtreeConvertColumnSchema.parse(params);
             const schemaName = schema ?? 'public';
@@ -165,6 +173,7 @@ function createLtreeCreateIndexTool(adapter: PostgresAdapter): ToolDefinition {
         group: 'ltree',
         inputSchema: LtreeIndexSchema,
         annotations: write('Create Ltree Index'),
+        icons: getToolIcons('ltree', write('Create Ltree Index')),
         handler: async (params: unknown, _context: RequestContext) => {
             const { table, column, indexName, schema } = LtreeIndexSchema.parse(params);
             const schemaName = schema ?? 'public';

@@ -571,6 +571,19 @@ export interface ToolAnnotations {
 }
 
 /**
+ * MCP Tool Icon (SDK 1.25+)
+ * Visual representation of a tool for display in client UIs.
+ */
+export interface ToolIcon {
+    /** URI for the icon (data:, http:, https:, file://) */
+    src: string;
+    /** MIME type (image/svg+xml, image/png, image/jpeg) */
+    mimeType?: string;
+    /** Size hints (e.g., ["48x48"] or ["any"] for SVG) */
+    sizes?: string[];
+}
+
+/**
  * Tool definition for registration
  */
 export interface ToolDefinition {
@@ -594,6 +607,9 @@ export interface ToolDefinition {
 
     /** MCP Tool Annotations for behavior hints */
     annotations?: ToolAnnotations;
+
+    /** MCP Tool Icons for visual representation */
+    icons?: ToolIcon[];
 
     /** Tool handler function */
     handler: (params: unknown, context: RequestContext) => Promise<unknown>;
