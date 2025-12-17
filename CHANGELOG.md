@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Security
+- **CodeQL Remediation** — Fixed 4 clear-text logging vulnerabilities (js/clear-text-logging)
+  - Added `sanitizeDetails()` to Logger class that redacts sensitive OAuth/security fields before console output
+  - Sensitive keys redacted: password, secret, token, key, apikey, issuer, audience, jwksUri, credentials, etc.
+  - Supports recursive sanitization for nested configuration objects
+  - Prevents exposure of OAuth configuration data in log output
+- Removed unused `beforeEach` import in middleware tests (js/unused-local-variable)
+
+
 ### Changed
 - **@modelcontextprotocol/sdk** upgraded from 1.0.0 to 1.25.1
   - Aligned with MCP spec 2025-11-25

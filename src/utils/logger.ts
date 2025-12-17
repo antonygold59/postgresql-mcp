@@ -31,10 +31,64 @@ class Logger {
         return this.levelPriority[level] >= this.levelPriority[this.minLevel];
     }
 
+    /**
+     * List of keys that contain sensitive data and should be redacted
+     */
+    private readonly sensitiveKeys: ReadonlySet<string> = new Set([
+        'password',
+        'secret',
+        'token',
+        'key',
+        'apikey',
+        'api_key',
+        'accesstoken',
+        'access_token',
+        'refreshtoken',
+        'refresh_token',
+        'authorization',
+        'credential',
+        'credentials',
+        // OAuth-specific sensitive fields
+        'issuer',
+        'audience',
+        'jwksuri',
+        'jwks_uri',
+        'client_secret',
+        'clientsecret'
+    ]);
+
+    /**
+     * Sanitize details object by redacting sensitive values
+     * This prevents clear-text logging of OAuth config and other secrets
+     */
+    private sanitizeDetails(details: Record<string, unknown>): Record<string, unknown> {
+        const sanitized: Record<string, unknown> = {};
+
+        for (const [key, value] of Object.entries(details)) {
+            const lowerKey = key.toLowerCase();
+
+            // Check if this key matches any sensitive pattern
+            const isSensitive = this.sensitiveKeys.has(lowerKey) ||
+                [...this.sensitiveKeys].some(sk => lowerKey.includes(sk));
+
+            if (isSensitive && value !== undefined && value !== null) {
+                sanitized[key] = '[REDACTED]';
+            } else if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+                // Recursively sanitize nested objects
+                sanitized[key] = this.sanitizeDetails(value as Record<string, unknown>);
+            } else {
+                sanitized[key] = value;
+            }
+        }
+
+        return sanitized;
+    }
+
     private formatEntry(entry: LogEntry): string {
         const base = `[${entry.timestamp}] [${entry.level.toUpperCase()}] ${entry.message}`;
         if (entry.details) {
-            return `${base} ${JSON.stringify(entry.details)}`;
+            const sanitizedDetails = this.sanitizeDetails(entry.details);
+            return `${base} ${JSON.stringify(sanitizedDetails)}`;
         }
         return base;
     }
