@@ -107,6 +107,26 @@ node dist/cli.js --transport stdio --postgres postgres://user:password@localhost
 
 Code Mode lets you write JavaScript that orchestrates multiple database operations in a single call. Instead of calling tools one-by-one, write code that loops, aggregates, and transforms data.
 
+### **Token Savings Estimate**
+
+**Code Mode vs. Standard Method**
+
+| Scenario                        | Standard (individual calls)                     | Code Mode                             | Savings |
+| ------------------------------- | ----------------------------------------------- | ------------------------------------- | ------- |
+| Get row counts for 10 tables    | ~10 tool calls × ~200 tokens = **2,000 tokens** | 1 call × ~300 tokens = **300 tokens** | **85%** |
+| Find unused indexes + get sizes | ~20 calls = **4,000 tokens**                    | 1 call = **400 tokens**               | **90%** |
+| Database health report          | ~15 calls = **3,000 tokens**                    | 1 call = **350 tokens**               | **88%** |
+
+### **Estimated Average**
+
+* **70–90% token reduction** for multi-step operations
+
+### **Key Savings**
+
+* Eliminates per-call overhead (tool name, description parsing)
+* Reduces context window pollution from intermediate results
+* Fewer round-trips means less “here’s what I’m going to do” explanations
+
 ### Quick Start
 
 **No configuration changes required.** Add `codemode` to your tool filter to access `pg_execute_code`:
