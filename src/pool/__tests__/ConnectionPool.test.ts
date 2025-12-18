@@ -91,7 +91,6 @@ describe('ConnectionPool', () => {
 
         it('should not reinitialize if already initialized', async () => {
             await pool.initialize();
-            const firstCallCount = mockPoolConnect.mock.calls.length;
 
             await pool.initialize(); // Should warn but not throw
 

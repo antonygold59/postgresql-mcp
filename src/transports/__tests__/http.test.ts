@@ -5,7 +5,7 @@
  * Uses mocked HTTP primitives to test behavior without starting a real server.
  */
 
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { HttpTransport } from '../http.js';
 
