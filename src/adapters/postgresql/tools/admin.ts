@@ -10,7 +10,7 @@ import type { ToolDefinition, RequestContext } from '../../../types/index.js';
 import { z } from 'zod';
 import { admin, destructive } from '../../../utils/annotations.js';
 import { getToolIcons } from '../../../utils/icons.js';
-import { VacuumSchema, AnalyzeSchema, ReindexSchema, TerminateBackendSchema, CancelBackendSchema } from '../types.js';
+import { VacuumSchema, AnalyzeSchema, ReindexSchema, TerminateBackendSchema, CancelBackendSchema } from '../schemas/index.js';
 
 /**
  * Get all admin tools

@@ -10,7 +10,7 @@ import type { ToolDefinition, RequestContext } from '../../../types/index.js';
 import { z } from 'zod';
 import { readOnly, write } from '../../../utils/annotations.js';
 import { getToolIcons } from '../../../utils/icons.js';
-import { DatabaseSizeSchema, TableSizesSchema, ShowSettingsSchema } from '../types.js';
+import { DatabaseSizeSchema, TableSizesSchema, ShowSettingsSchema } from '../schemas/index.js';
 
 /**
  * Get all monitoring tools

@@ -26,21 +26,21 @@ import { ConnectionError, QueryError, TransactionError } from '../../types/index
 import { logger } from '../../utils/logger.js';
 
 // Import tool modules (will be created next)
-import { getCoreTools } from './tools/core.js';
+import { getCoreTools } from './tools/core/index.js';
 import { getTransactionTools } from './tools/transactions.js';
-import { getJsonbTools } from './tools/jsonb.js';
+import { getJsonbTools } from './tools/jsonb/index.js';
 import { getTextTools } from './tools/text.js';
-import { getPerformanceTools } from './tools/performance.js';
+import { getPerformanceTools } from './tools/performance/index.js';
 import { getAdminTools } from './tools/admin.js';
 import { getMonitoringTools } from './tools/monitoring.js';
-import { getBackupTools } from './tools/backup.js';
+import { getBackupTools } from './tools/backup/index.js';
 import { getSchemaTools } from './tools/schema.js';
-import { getVectorTools } from './tools/vector.js';
-import { getPostgisTools } from './tools/postgis.js';
+import { getVectorTools } from './tools/vector/index.js';
+import { getPostgisTools } from './tools/postgis/index.js';
 import { getPartitioningTools } from './tools/partitioning.js';
-import { getStatsTools } from './tools/stats.js';
+import { getStatsTools } from './tools/stats/index.js';
 import { getCronTools } from './tools/cron.js';
-import { getPartmanTools } from './tools/partman.js';
+import { getPartmanTools } from './tools/partman/index.js';
 import { getKcacheTools } from './tools/kcache.js';
 import { getCitextTools } from './tools/citext.js';
 import { getLtreeTools } from './tools/ltree.js';

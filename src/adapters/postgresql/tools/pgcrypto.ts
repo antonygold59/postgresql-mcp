@@ -11,7 +11,7 @@ import { getToolIcons } from '../../../utils/icons.js';
 import {
     PgcryptoHashSchema, PgcryptoHmacSchema, PgcryptoEncryptSchema,
     PgcryptoDecryptSchema, PgcryptoRandomBytesSchema, PgcryptoGenSaltSchema, PgcryptoCryptSchema
-} from '../types.js';
+} from '../schemas/index.js';
 
 export function getPgcryptoTools(adapter: PostgresAdapter): ToolDefinition[] {
     return [

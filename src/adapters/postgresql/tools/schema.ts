@@ -10,7 +10,7 @@ import type { ToolDefinition, RequestContext } from '../../../types/index.js';
 import { z } from 'zod';
 import { readOnly, write, destructive } from '../../../utils/annotations.js';
 import { getToolIcons } from '../../../utils/icons.js';
-import { CreateSchemaSchema, DropSchemaSchema, CreateSequenceSchema, CreateViewSchema } from '../types.js';
+import { CreateSchemaSchema, DropSchemaSchema, CreateSequenceSchema, CreateViewSchema } from '../schemas/index.js';
 
 /**
  * Get all schema management tools

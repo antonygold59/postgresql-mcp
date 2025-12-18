@@ -14,7 +14,7 @@ import {
     TransactionIdSchema,
     SavepointSchema,
     TransactionExecuteSchema
-} from '../types.js';
+} from '../schemas/index.js';
 
 /**
  * Get all transaction tools

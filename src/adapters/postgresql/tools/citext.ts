@@ -20,7 +20,7 @@ import {
     CitextListColumnsSchema,
     CitextAnalyzeCandidatesSchema,
     CitextSchemaAdvisorSchema
-} from '../types.js';
+} from '../schemas/index.js';
 
 /**
  * Get all citext tools

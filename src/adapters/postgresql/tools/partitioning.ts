@@ -15,7 +15,7 @@ import {
     CreatePartitionSchema,
     AttachPartitionSchema,
     DetachPartitionSchema
-} from '../types.js';
+} from '../schemas/index.js';
 
 /**
  * Get all partitioning tools

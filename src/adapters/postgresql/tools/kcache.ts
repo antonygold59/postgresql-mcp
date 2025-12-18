@@ -21,7 +21,7 @@ import {
     KcacheQueryStatsSchema,
     KcacheDatabaseStatsSchema,
     KcacheResourceAnalysisSchema
-} from '../types.js';
+} from '../schemas/index.js';
 
 /**
  * Get all pg_stat_kcache tools

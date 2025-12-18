@@ -11,7 +11,7 @@ import { getToolIcons } from '../../../utils/icons.js';
 import {
     LtreeQuerySchema, LtreeSubpathSchema, LtreeLcaSchema, LtreeMatchSchema,
     LtreeListColumnsSchema, LtreeConvertColumnSchema, LtreeIndexSchema
-} from '../types.js';
+} from '../schemas/index.js';
 
 export function getLtreeTools(adapter: PostgresAdapter): ToolDefinition[] {
     return [

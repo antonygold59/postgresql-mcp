@@ -19,7 +19,7 @@ import {
     CronAlterJobSchema,
     CronJobRunDetailsSchema,
     CronCleanupHistorySchema
-} from '../types.js';
+} from '../schemas/index.js';
 
 /**
  * Get all pg_cron tools

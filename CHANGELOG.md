@@ -17,6 +17,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ### Changed
+- **Tool File Modularity Refactoring** — Restructured 8 large tool files (500+ lines each) into modular directories
+  - `tools/core/` — 6 sub-modules: query, tables, indexes, objects, health, schemas (20 tools)
+  - `tools/performance/` — 5 sub-modules: explain, stats, monitoring, analysis, optimization (16 tools)
+  - `tools/vector/` — 2 sub-modules: basic, advanced (14 tools)
+  - `tools/jsonb/` — 2 sub-modules: basic, advanced (19 tools)
+  - `tools/stats/` — 2 sub-modules: basic, advanced (8 tools)
+  - `tools/partman/` — 2 sub-modules: management, operations (10 tools)
+  - `tools/backup/` — 2 sub-modules: dump, planning (9 tools)
+  - `tools/postgis/` — 2 sub-modules: basic, advanced (12 tools)
+  - Each directory has an `index.ts` barrel file for clean re-exports
+  - No file exceeds 350 lines; improved maintainability and navigation
 - **@modelcontextprotocol/sdk** upgraded from 1.0.0 to 1.25.1
   - Aligned with MCP spec 2025-11-25
   - Enables: Streamable HTTP transport, OAuth 2.1 framework, Tasks API, tool annotations, elicitation, and JSON-RPC batching

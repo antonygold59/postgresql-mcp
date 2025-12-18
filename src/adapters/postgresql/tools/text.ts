@@ -14,7 +14,7 @@ import {
     TextSearchSchema,
     TrigramSimilaritySchema,
     RegexpMatchSchema
-} from '../types.js';
+} from '../schemas/index.js';
 
 /**
  * Get all text processing tools
