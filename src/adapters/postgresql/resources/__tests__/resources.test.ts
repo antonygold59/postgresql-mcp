@@ -9,7 +9,6 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import type { PostgresAdapter } from '../../PostgresAdapter.js';
 import {
     createMockPostgresAdapter,
-    createMockQueryResult,
     createMockRequestContext
 } from '../../../../__tests__/mocks/index.js';
 import { createHealthResource } from '../health.js';

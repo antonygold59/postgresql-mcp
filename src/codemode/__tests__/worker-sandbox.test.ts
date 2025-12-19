@@ -4,7 +4,7 @@
  * Tests the worker thread-based sandbox classes for isolated code execution.
  */
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { WorkerSandbox, WorkerSandboxPool } from '../worker-sandbox.js';
 
 // Mock the logger

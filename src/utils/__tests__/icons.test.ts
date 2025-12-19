@@ -77,7 +77,7 @@ describe('Tool Icons Utility', () => {
         it('should return valid icons for each group', () => {
             const allIcons = getAllCategoryIcons();
 
-            for (const [group, icons] of Object.entries(allIcons)) {
+            for (const [, icons] of Object.entries(allIcons)) {
                 expect(icons.length).toBe(1);
                 expect(icons[0]?.src).toContain('data:image/svg+xml;base64,');
                 expect(icons[0]?.mimeType).toBe('image/svg+xml');
