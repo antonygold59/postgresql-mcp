@@ -39,6 +39,23 @@ node dist/cli.js --transport stdio --postgres postgres://user:password@localhost
 
 ---
 
+## 📓 Jupyter Notebook
+
+A hands-on [quickstart notebook](examples/notebooks/quickstart.ipynb) demonstrates all major features using the Python MCP SDK:
+
+- CRUD operations, transactions, and error handling
+- Resources for observability (`postgres://health`, `postgres://extensions`)
+- JSONB, full-text search, pgvector, and PostGIS
+- Code Mode for multi-step operations
+
+```bash
+cd examples/notebooks
+pip install mcp python-dotenv
+python -m jupyterlab
+```
+
+---
+
 ## ⚡ MCP Client Configuration
 
 ### Cursor IDE / Claude Desktop
