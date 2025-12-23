@@ -198,6 +198,20 @@ SELECT cron.schedule_in_database(
 
 4. **Monitor job duration trends**
 
+## Available Tools
+
+| Tool | Purpose |
+|------|---------|
+| \`pg_cron_create_extension\` | Enable pg_cron extension |
+| \`pg_cron_schedule\` | Schedule a new job |
+| \`pg_cron_schedule_in_database\` | Schedule job in another database |
+| \`pg_cron_unschedule\` | Remove a scheduled job |
+| \`pg_cron_alter_job\` | Modify job schedule or command |
+| \`pg_cron_list_jobs\` | List all scheduled jobs |
+| \`pg_cron_job_run_details\` | View job execution history |
+| \`pg_cron_enable_job\` | Enable a disabled job |
+| \`pg_cron_disable_job\` | Disable a job without removing |
+
 ## Best Practices
 
 1. **Use descriptive job names** — Makes management easier

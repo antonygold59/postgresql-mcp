@@ -38,8 +38,8 @@ Focus Area: **${focus.charAt(0).toUpperCase() + focus.slice(1)}**
 \`\`\`sql
 SELECT
     schemaname,
-    tablename,
-    indexname,
+    relname as tablename,
+    indexrelname as indexname,
     idx_scan as index_scans,
     pg_size_pretty(pg_relation_size(indexrelid)) as index_size
 FROM pg_stat_user_indexes
@@ -59,7 +59,7 @@ Use \`pg_index_stats\` for detailed analysis.
 ### 2. Unused Indexes
 
 \`\`\`sql
-SELECT indexname, pg_size_pretty(pg_relation_size(indexrelid)) as size
+SELECT indexrelname as indexname, pg_size_pretty(pg_relation_size(indexrelid)) as size
 FROM pg_stat_user_indexes
 WHERE idx_scan = 0 AND schemaname = '${schema}';
 \`\`\`

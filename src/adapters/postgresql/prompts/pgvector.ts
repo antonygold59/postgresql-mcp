@@ -119,6 +119,26 @@ pg_vector_search(
 
 Use \`pg_vector_performance\` to benchmark your configuration.
 
+## Available Tools
+
+| Tool | Purpose |
+|------|---------|
+| \`pg_vector_create_extension\` | Enable pgvector extension |
+| \`pg_vector_add_column\` | Add vector column to table |
+| \`pg_vector_search\` | Similarity search with distance metrics |
+| \`pg_vector_create_index\` | Create HNSW or IVFFlat index |
+| \`pg_vector_update\` | Update vector values |
+| \`pg_vector_batch_insert\` | Bulk insert embeddings |
+| \`pg_vector_aggregate\` | Aggregate vector operations |
+| \`pg_vector_distance\` | Calculate distance between vectors |
+| \`pg_vector_nearest\` | Find K nearest neighbors |
+| \`pg_vector_hybrid_search\` | Combine vector + keyword search |
+| \`pg_vector_normalize\` | Normalize vectors |
+| \`pg_vector_performance\` | Benchmark configuration |
+| \`pg_vector_info\` | Get pgvector version and columns |
+| \`pg_vector_drop_index\` | Drop vector index |
+| \`pg_vector_reindex\` | Rebuild vector index |
+
 ## Best Practices
 
 1. Normalize embeddings if using inner product

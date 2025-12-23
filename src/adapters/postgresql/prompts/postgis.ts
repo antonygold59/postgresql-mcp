@@ -156,6 +156,27 @@ SELECT jsonb_build_object(
 FROM locations;
 \`\`\`
 
+## Available Tools
+
+| Tool | Purpose |
+|------|---------|
+| \`pg_postgis_create_extension\` | Enable PostGIS extension |
+| \`pg_geometry_column\` | Add geometry/geography column |
+| \`pg_spatial_index\` | Create spatial GiST index |
+| \`pg_distance\` | Calculate distance between points |
+| \`pg_buffer\` | Create buffer around geometry |
+| \`pg_intersection\` | Find intersection of geometries |
+| \`pg_within\` | Check if geometry is within another |
+| \`pg_contains\` | Check if geometry contains another |
+| \`pg_bounding_box\` | Get bounding box of geometry |
+| \`pg_geocode\` | Geocode addresses (if geocoder installed) |
+| \`pg_geometry_buffer\` | Buffer operations on table data |
+| \`pg_geo_cluster\` | Cluster spatial data |
+| \`pg_geo_index_optimize\` | Analyze spatial index performance |
+| \`pg_nearest_neighbor\` | Find K nearest neighbors |
+| \`pg_spatial_join\` | Join tables on spatial relationship |
+| \`pg_postgis_info\` | Get PostGIS version and capabilities |
+
 ## Best Practices
 
 1. **Always use spatial indexes** - 100x+ performance improvement

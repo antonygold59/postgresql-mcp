@@ -27,13 +27,13 @@ export function createDatabaseHealthCheckPrompt(): PromptDefinition {
 
 ### 1. Extension Availability
 
-First, verify critical extensions:
+First, verify critical extensions are installed:
 
 \`\`\`sql
-SELECT * FROM pg_available_extensions WHERE name IN ('pg_stat_statements', 'hypopg', 'pgvector', 'postgis');
+SELECT extname, extversion FROM pg_extension WHERE extname IN ('pg_stat_statements', 'hypopg', 'vector', 'postgis');
 \`\`\`
 
-Use \`pg_list_extensions\` to see installed extensions.
+Use \`pg_list_extensions\` to see all installed extensions.
 
 ### 2. Database Health Analysis
 
